@@ -13,7 +13,7 @@ function Card() {
                 </div>
             </div>
             <div className=' Download absolute w-full p-5 left-0 text-white  bg-green-500' >
-             <h5>Download Now</h5>
+                <h5>Download Now</h5>
             </div>
         </div>
     )
