@@ -1,21 +1,25 @@
 import React from 'react'
 import { FaRegFileAlt } from "react-icons/fa";
 import { MdDownload } from "react-icons/md";
-function Card() {
+import { motion } from "framer-motion"
+function Card({ reference }) {
     return (
-        <div className=' relative w-[20%]  p-5 bg-zinc-200 rounded-2xl '>
+        <motion.div drag whileDrag={{ scale: 1.1 }} dragConstraints={reference} className=' relative w-[20%] h-[40%]  p-5 bg-zinc-200 rounded-2xl overflow-hidden'>
             <FaRegFileAlt />
-            <p className='text-sm mt-5 font-semibold'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium nemo dolore minima.</p>
-            <div className='Footer flex mt-10 justify-between items-center' >
+            <p className='text-sm mt-5 tracking-tighter font-semibold'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium nemo dolore minima.</p>
+           
+         <div className='Footer absolute left-0 bottom-0  w-full   '>  
+            <div className='  flex justify-between px-5 items-center' >
                 <h5 className='font-semibold  text-sm '>.4 mb</h5>
-                <div className='bg-black text-white p-1  rounded-full'>
+                <span className='bg-black text-white p-1  rounded-full'>
                     <MdDownload />
-                </div>
+                </span>
             </div>
-            <div className=' Download absolute w-full p-5 left-0 text-white  bg-green-500' >
-                <h5>Download Now</h5>
+            <div className=' Download mt-4  w-full   left-0 flex items-center justify-center p-2   text-white  bg-green-500' >
+                <h5 className='text-sm '>Download Now</h5>
             </div>
-        </div>
+            </div>
+        </motion.div>
     )
 }
 

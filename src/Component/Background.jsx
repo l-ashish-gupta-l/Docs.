@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useRef } from 'react'
 
 function Background() {
+    
   return (
       <div className=' relative z-10 w-full h-screen  '>
           <div className='w-full py-10 flex justify-center items-center '>
