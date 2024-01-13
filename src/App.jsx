@@ -1,4 +1,4 @@
-import React from 'react'
+import React ,{useRef} from 'react'
 import Background from './Component/Background'
 import ForeGround from './Component/ForeGround'
 import Login from './Component/Login'
@@ -6,9 +6,9 @@ import Login from './Component/Login'
 function App() {
   return (
     <>
-      <Background />
+      <Background  />
       {/* <ForeGround/> */}
-      <Login/>
+      <Login   />
     </>
   )
 }
