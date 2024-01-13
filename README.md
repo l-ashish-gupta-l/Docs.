@@ -16,13 +16,13 @@ To use **Docs.**, follow these steps:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/LifeTracker.git
+    git clone https://github.com/your-username/Docs..git
     ```
 
 2. Open the app:
 
     ```bash
-    cd LifeTracker
+    cd Docs
     open index.html
     ```
 
