@@ -1,11 +1,11 @@
 import React from 'react'
-import Background from "../Background"
 import Login from "../Login"
 function LoginPage() {
     return (
         <>
-            <Background />
-            <Login />
+            <div className='w-screen h-screen flex justify-center items-center' >
+                <Login />
+            </div>
         </>
     )
 }

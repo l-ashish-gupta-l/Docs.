@@ -34,13 +34,16 @@ function Login() {
 
 
     return (
-        <motion.div drag whileDrag={{ scale: 1.1 }} dragConstraints={{
+        <motion.div drag 
+            dragConstraints={{
             top: -200,
             right: 100,
             bottom: -20,
             left: -600,
-        }} className="w-full  absolute top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2  z-50  bg-white rounded-2xl overflow-hidden border-[1.5px] border-black
-                    shadow-lg p-8 m-4 md:max-w-sm md:mx-auto ">
+            }}
+            className="  flex justify-center items-center  bg-white rounded-2xl overflow-hidden 
+                       shadow-lg border-[1.5px]">
+            <div className='w-1/2   p-10 border-r-2' >
             <span className="block w-full text-xl uppercase  mb-4 tracking-tighter font-semibold">Login</span>
             <form onSubmit={handleLogin} className="mb-4" method="post">
                 <div className="mb-4 md:w-full">
@@ -53,12 +56,16 @@ function Login() {
                 </div>
                 <button
                     type="submit"
-                    className="bg-green-500 hover:bg-green-700 text-white uppercase text-sm px-4 py-2 rounded tracking-tighter font-semibold"
+                        className="bg-black hover:bg-gray-300 text-white hover:text-black uppercase text-sm px-4 py-2 rounded tracking-tighter font-semibold"
                 >
                     Login
                 </button>
             </form>
-            <a className="text-blue-700 text-center text-sm tracking-tighter font-semibold" href="/login">Forgot password?</a>
+            <a className="text-black hover:underline text-center text-sm tracking-tighter font-semibold" href="/login">Forgot password?</a>
+            </div>
+            <div className='w-1/2 p-16 flex justify-center items-center' >
+                <h1 className='text-[9vw] text-black  font-semibold leading-tight  tracking-tighter'>Docs.</h1>
+            </div>
         </motion.div>
 
 
