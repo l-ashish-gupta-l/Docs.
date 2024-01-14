@@ -20,7 +20,11 @@ function Login() {
         const navigate = useNavigate();
         const handleLogin = (e) => {
             e.preventDefault();
-            navigate('/foreground');
+             axios.post("http://localhost:5000/login", {
+                Email: email,
+                Password: password
+            })
+            navigate("/foreground");   
         }
         
 

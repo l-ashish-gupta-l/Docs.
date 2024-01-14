@@ -5,19 +5,19 @@ import Usermodel from "./Model.js";
 
 const app = express();
 app.use(cors());
-
+app.use(express.json());
 connectdb();
 
 app.get("/", (req, res) => {
   res.send(" SERVER HOME PAGE ");
 });
 
-app.get("/created", async (req, res) => {
+app.post("/login", async (req, res) => {
   const data = await Usermodel.create({
-    Email: "String",
-    Password: "String",
+    Email: req.body.Email,
+    Password: req.body.Password,
   });
-  res.send(data);
+  
 });
 
 app.listen(5000, () => {
