@@ -1,16 +1,17 @@
-import React ,{useRef} from 'react'
-import Background from './Component/Background'
-import ForeGround from './Component/ForeGround'
-import Login from './Component/Login'
+import React from 'react';
+import LoginPage from './Component/Pages/LoginPage';
+import ForeGroundPage from './Component/Pages/ForeGroundPage';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
-    <>
-      <Background  />
-      {/* <ForeGround/> */}
-      <Login   />
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/foreground" element={<ForeGroundPage />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
