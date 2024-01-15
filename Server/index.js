@@ -12,12 +12,18 @@ app.get("/", (req, res) => {
   res.send(" SERVER HOME PAGE ");
 });
 
-app.post("/login", async (req, res) => {
+app.post("/register", async (req, res) => {
   const data = await Usermodel.create({
+    Username: req.body.Username,
     Email: req.body.Email,
     Password: req.body.Password,
   });
-  
+  console.log(req.body);
+});
+
+app.post("/login", async (req, res) => {
+  const data = await Usermodel.findOne({ Email: req.body.Email });
+  res.send(data);
 });
 
 app.listen(5000, () => {
