@@ -1,8 +1,11 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import cors from "cors";
 import connectdb from "./database.js";
 import Usermodel from "./Model.js";
 
+const PORT = process.env.PORT;
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -26,6 +29,6 @@ app.post("/login", async (req, res) => {
   res.send(data);
 });
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
   console.log("server is running on port 5000 ");
 });

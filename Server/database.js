@@ -1,10 +1,11 @@
+import dotenv from "dotenv";
+dotenv.config();
 
 import mongoose from "mongoose";
 
+const db_URI = process.env.URI;
 const connectdb = () => {
-  
-  mongoose.connect("mongodb://127.0.0.1:27017/docs");
-}
+  mongoose.connect(db_URI);
+};
 
 export default connectdb;
-
