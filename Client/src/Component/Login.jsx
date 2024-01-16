@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom';
 import axios from "axios"
@@ -45,35 +45,50 @@ function Login() {
         axios.post("http://localhost:5000/register", {
             Username: username,
             Email: email,
-            Password: password
+            Password: password,
+
+        }, {
+            withCredentials: true
         })
         navigate("/foreground");
     }
+
+    // const handleregister = (e) => {
+    //     e.preventDefault();
+    //     axios.get("http://localhost:5000/cook", {
+    //         withCredentials: true,
+
+    //     })
+    //     navigate("/foreground");
+    // }
+
+
+
 
     //login 
     const [userdata, setuserdata] = useState()
 
 
-    const handlelogin = async(e) => {
+    const handlelogin = async (e) => {
         e.preventDefault();
         const res = await axios.post("http://localhost:5000/login", {
             Email: email,
             Password: password
         })
         if (res.data.Password === password) {
-             navigate("/foreground");
+            navigate("/foreground");
         }
         else {
             console.log("wrong password")
         }
-    
+
     }
     useEffect(() => {
         // This will run whenever userdata changes
-        
+
     }, [userdata]); // The dependency array ensures the effect runs when userdata changes
 
-    
+
 
 
     return (
@@ -91,16 +106,16 @@ function Login() {
                 <span className="block w-full text-xl uppercase  mb-4 tracking-tighter font-semibold">REGISTER NOW.</span>
                 <form onSubmit={handleregister} className="mb-4" method="POST">
                     <div className="mb-4 md:w-full">
-                        <label for="username" className="block text-xs mb-1 tracking-tighter font-semibold">Username</label>
+                        <label className="block text-xs mb-1 tracking-tighter font-semibold">Username</label>
                         <input className="w-full border rounded p-2 outline-none focus:shadow-outline" type="username" name="username" id="Username" placeholder="Username" onChange={usernamehandler} />
                     </div>
                     <div className="mb-4 md:w-full">
-                        <label for="email" className="block text-xs mb-1 tracking-tighter font-semibold"> Email</label>
-                        <input className="w-full border rounded p-2 outline-none focus:shadow-outline" type="email" name="email" id="email" placeholder=" Email" onChange={emailhandler} />
+                        <label className="block text-xs mb-1 tracking-tighter font-semibold"> Email</label>
+                        <input className="w-full border rounded p-2 outline-none focus:shadow-outline" type="email" name="email" id="Rg_email" placeholder=" Email" onChange={emailhandler} />
                     </div>
                     <div className="mb-6 md:w-full">
-                        <label for="password" className="block text-xs mb-1 tracking-tighter font-semibold">Password</label>
-                        <input className="w-full border rounded p-2 outline-none focus:shadow-outline" type="password" name="password" id="password" onChange={passwordhandler} placeholder="Password" />
+                        <label className="block text-xs mb-1 tracking-tighter font-semibold">Password</label>
+                        <input className="w-full border rounded p-2 outline-none focus:shadow-outline" type="password" name="password" id="Rg_password" onChange={passwordhandler} placeholder="Password" />
                     </div>
                     <button
                         type="submit"
@@ -122,11 +137,11 @@ function Login() {
                 <span className="block w-full text-xl uppercase  mb-4 tracking-tighter font-semibold">Login.</span>
                 <form onSubmit={handlelogin} className="mb-4" method="post">
                     <div className="mb-4 md:w-full">
-                        <label for="email" className="block text-xs mb-1 tracking-tighter font-semibold">Username or Email</label>
+                        <label className="block text-xs mb-1 tracking-tighter font-semibold">Username or Email</label>
                         <input className="w-full border rounded p-2 outline-none focus:shadow-outline" type="email" name="email" id="email" placeholder="Username or Email" onChange={emailhandler} />
                     </div>
                     <div className="mb-6 md:w-full">
-                        <label for="password" className="block text-xs mb-1 tracking-tighter font-semibold">Password</label>
+                        <label className="block text-xs mb-1 tracking-tighter font-semibold">Password</label>
                         <input className="w-full border rounded p-2 outline-none focus:shadow-outline" type="password" name="password" id="password" onChange={passwordhandler} placeholder="Password" />
                     </div>
                     <button
