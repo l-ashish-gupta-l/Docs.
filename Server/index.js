@@ -24,22 +24,23 @@ app.get("/", (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const data = await Usermodel.create({
-    Username: req.body.Username,
-    Email: req.body.Email,
-    Password: req.body.Password,
-  });
-  res.cookie("token", "ashish", {
-    httpOnly: true,
-  });  
-  res.send(data)
-  console.log("created")
+  const { Username, Email, Password } = req.body;
+  const EmailUser = await Usermodel.findOne({ Email: Email });
+  if (EmailUser) {
+    return res.status(400).json({ error: "Email already exists" });
+  }else{
+    const data = await Usermodel.create({
+      Username,
+      Email,
+      Password,
+    });
+    res.status(201).send(data);
+  }  
 });
-
 
 app.post("/login", async (req, res) => {
   const data = await Usermodel.findOne({ Email: req.body.Email });
-  
+
   res.send(data);
 });
 

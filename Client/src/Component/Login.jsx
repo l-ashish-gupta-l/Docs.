@@ -5,8 +5,7 @@ import axios from "axios"
 
 function Login() {
 
-    //navigator
-
+    
     //overlay animation
     const [overlayscreen, setoverlayscreen] = useState("right-0");
     const overlay = () => {
@@ -38,31 +37,25 @@ function Login() {
         setpassword(e.target.value);
     }
 
-    //register
+    //navigator
     const navigate = useNavigate();
-    const handleregister = (e) => {
-        e.preventDefault();
-        axios.post("http://localhost:5000/register", {
+    //register
+    const handleregister = async (e) => {
+        e.preventDefault();        
+       const res = await axios.post("http://localhost:5000/register", {
             Username: username,
             Email: email,
             Password: password,
 
         }, {
             withCredentials: true
-        })
-        navigate("/foreground");
+       })
+         if(res.data)   {
+             navigate("/foreground");
+         } else {
+             navigate("/");
+         }
     }
-
-    // const handleregister = (e) => {
-    //     e.preventDefault();
-    //     axios.get("http://localhost:5000/cook", {
-    //         withCredentials: true,
-
-    //     })
-    //     navigate("/foreground");
-    // }
-
-
 
 
     //login 
