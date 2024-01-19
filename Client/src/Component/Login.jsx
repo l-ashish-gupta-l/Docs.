@@ -5,7 +5,7 @@ import axios from "axios"
 
 function Login() {
 
-    
+
     //overlay animation
     const [overlayscreen, setoverlayscreen] = useState("right-0");
     const overlay = () => {
@@ -40,22 +40,30 @@ function Login() {
     //navigator
     const navigate = useNavigate();
     //register
-    const handleregister = async (e) => {
-        e.preventDefault();        
-       const res = await axios.post("http://localhost:5000/register", {
-            Username: username,
-            Email: email,
-            Password: password,
+    
 
-        }, {
-            withCredentials: true
-       })
-         if(res.data)   {
-             navigate("/foreground");
-         } else {
-             navigate("/");
-         }
-    }
+    const handleregister = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post("http://localhost:5000/register", {
+                Username: username,
+                Email: email,
+                Password: password,
+            }, {
+                withCredentials: true
+            });
+
+            console.log(response);
+
+            } catch (error) {
+            if (error.response && error.response.status === 400) {
+                console.error('Registration error:', error.response.data.message);
+            } else {
+                console.error('An unexpected error occurred during registration:', error);
+            }
+        }
+    };
 
 
     //login 
