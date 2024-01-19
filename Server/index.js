@@ -5,7 +5,7 @@ import cors from "cors";
 import connectdb from "./database.js";
 import Usermodel from "./Model.js";
 import cookieParser from "cookie-parser";
-import Bycript from "bcryptjs";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 const PORT = process.env.PORT;
 const app = express();
@@ -31,7 +31,7 @@ app.post("/register", async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "Email already exists" });
     } else {
-      const hashedPassword = await  Bycript.hash(Password,10);
+      const hashedPassword = await bcrypt.hash(Password, 10);
       const newUser = await Usermodel.create({
         Username,
         Email,
@@ -50,10 +50,25 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const data = await Usermodel.findOne({ Email: req.body.Email });
-  res.send(data);
-});
+  const { Username, Email, Password } = req.body;
+  try {
+    const entertered_user = await Usermodel.findOne({ Email: req.body.Email });
 
+    if (!entertered_user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    console.log(Password, entertered_user.Password);
+    const verified = bcrypt.compare(
+      req.body.password,
+      entertered_user.Password
+    );
+    console.log(verified);
+  } catch (error) {
+    console.error("Error during login:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
 app.listen(PORT, () => {
   console.log("server is running on port 5000 ");
 });

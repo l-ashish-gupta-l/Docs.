@@ -40,11 +40,8 @@ function Login() {
     //navigator
     const navigate = useNavigate();
     //register
-    
-
     const handleregister = async (e) => {
         e.preventDefault();
-
         try {
             const response = await axios.post("http://localhost:5000/register", {
                 Username: username,
@@ -56,7 +53,7 @@ function Login() {
 
             console.log(response);
 
-            } catch (error) {
+        } catch (error) {
             if (error.response && error.response.status === 400) {
                 console.error('Registration error:', error.response.data.message);
             } else {
@@ -66,17 +63,19 @@ function Login() {
     };
 
 
+
     //login 
     const [userdata, setuserdata] = useState()
 
 
     const handlelogin = async (e) => {
         e.preventDefault();
-        const res = await axios.post("http://localhost:5000/login", {
+        
+            const res = await axios.post("http://localhost:5000/login", {
             Email: email,
             Password: password
         })
-        if (res.data.Password === password) {
+        if (res.data) {
             navigate("/foreground");
         }
         else {
