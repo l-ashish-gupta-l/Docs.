@@ -60,15 +60,17 @@ app.post("/login", async (req, res) => {
 
     let verified = await bcrypt.compare(
       req.body.Password,
-      entertered_user.Password,
+      entertered_user.Password
     );
-    res.send(verified);
+    const token = jwt.sign(entertered_user.Password, process.env.jwt_secret);
+    res.cookie("Token", token, { maxAge: 3600000 , httpsecure:true });
+    return res.send(verified);
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 });
- 
+
 app.listen(PORT, () => {
   console.log("server is running on port 5000 ");
 });

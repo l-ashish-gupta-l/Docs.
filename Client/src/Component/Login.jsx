@@ -67,11 +67,13 @@ function Login() {
     //login 
     const handlelogin = async (e) => {
         e.preventDefault();
-        
-            const res = await axios.post("http://localhost:5000/login", {
+
+        const res = await axios.post("http://localhost:5000/login", {
             Email: email,
             Password: password
-            })
+        }, {
+            withCredentials: true
+        })
         console.log(res.data);
         if (res.data) {
             navigate("/foreground");
@@ -81,7 +83,7 @@ function Login() {
         }
 
     }
-    
+
 
 
 
@@ -114,7 +116,7 @@ function Login() {
                     </button>
                 </form>
                 <div className='flex flex-col'>
-                <a className="text-black hover:underline text-start text-sm tracking-tighter font-semibold" href="/login">Forgot password?</a>
+                    <a className="text-black hover:underline text-start text-sm tracking-tighter font-semibold" href="/login">Forgot password?</a>
                     <button onClick={overlay} className="bg-black mt-5 hover:bg-gray-300 text-white hover:text-black uppercase text-sm px-4 py-2 rounded tracking-tighter font-semibold" >Already have an Account ? </button>
                 </div>
             </div>
