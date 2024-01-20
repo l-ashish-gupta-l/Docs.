@@ -37,7 +37,8 @@ app.post("/register", async (req, res) => {
         Email,
         Password: hashedPassword,
       });
-      const token = jwt.sign(hashedPassword, process.env.jwt_secret);
+      const userid = newUser._id;
+      const token = jwt.sign({userid}, process.env.jwt_secret);
       res.cookie("Token", token, { maxAge: 3600000 });
       return res
         .status(200)
@@ -62,13 +63,21 @@ app.post("/login", async (req, res) => {
       req.body.Password,
       entertered_user.Password
     );
-    const token = jwt.sign(entertered_user.Password, process.env.jwt_secret);
-    res.cookie("Token", token, { maxAge: 3600000 , httpsecure:true });
+    const userid = entertered_user._id;
+    const token = jwt.sign({userid}, process.env.jwt_secret);
+    res.cookie("Token", token, { maxAge: 3600000, httpsecure: true });
     return res.send(verified);
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
+});
+
+app.post("/userdata", async (req, res) => {
+  const token = req.cookies.Token;
+  const id = jwt.verify(token, process.env.jwt_secret);
+  const user = await Usermodel.findById({ _id: id.userid });
+  res.send(user);
 });
 
 app.listen(PORT, () => {

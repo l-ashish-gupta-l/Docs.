@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios"
 
 function Login() {
-
-
     //overlay animation
     const [overlayscreen, setoverlayscreen] = useState("right-0");
     const overlay = () => {
