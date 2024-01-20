@@ -65,16 +65,14 @@ function Login() {
 
 
     //login 
-    const [userdata, setuserdata] = useState()
-
-
     const handlelogin = async (e) => {
         e.preventDefault();
         
             const res = await axios.post("http://localhost:5000/login", {
             Email: email,
             Password: password
-        })
+            })
+        console.log(res.data);
         if (res.data) {
             navigate("/foreground");
         }
@@ -83,27 +81,18 @@ function Login() {
         }
 
     }
-    useEffect(() => {
-        // This will run whenever userdata changes
-
-    }, [userdata]); // The dependency array ensures the effect runs when userdata changes
-
+    
 
 
 
     return (
-        <motion.div drag
-            dragConstraints={{
-                top: -200,
-                right: 100,
-                bottom: -20,
-                left: -600,
-            }}
+        <div
             className=" w-[60%] relative flex  bg-white rounded-2xl overflow-hidden 
                        shadow-2xl border-[1.5px]">
             {/* REGESTERATION FORM */}
             <div className='w-1/2 h-full py-16 px-20 border-r-2' >
-                <span className="block w-full text-xl uppercase  mb-4 tracking-tighter font-semibold">REGISTER NOW.</span>
+                <span className="block w-full text-3xl  mb-2   tracking-tighter font-bold">Hi ! </span>
+                <span className="block w-full text-base  mb-8 tracking-tighter text-gray-700 font-medium">Create a new account </span>
                 <form onSubmit={handleregister} className="mb-4" method="POST">
                     <div className="mb-4 md:w-full">
                         <label className="block text-xs mb-1 tracking-tighter font-semibold">Username</label>
@@ -124,17 +113,15 @@ function Login() {
                         Register
                     </button>
                 </form>
-                {/* <a className="text-black hover:underline text-center text-sm tracking-tighter font-semibold" href="/login">Forgot password?</a> */}
-                <button
-                    onClick={overlay}
-                    className="bg-black hover:bg-gray-300 text-white hover:text-black uppercase text-sm px-4 py-2 rounded tracking-tighter font-semibold"
-                >
-                    Right
-                </button>
+                <div className='flex flex-col'>
+                <a className="text-black hover:underline text-start text-sm tracking-tighter font-semibold" href="/login">Forgot password?</a>
+                    <button onClick={overlay} className="bg-black mt-5 hover:bg-gray-300 text-white hover:text-black uppercase text-sm px-4 py-2 rounded tracking-tighter font-semibold" >Already have an Account ? </button>
+                </div>
             </div>
             {/* LOGIN FORM  */}
             <div className='w-1/2 h-full absolute  bg-white  first-letter: z-10 right-0  p-16 border-r-2 ' >
-                <span className="block w-full text-xl uppercase  mb-4 tracking-tighter font-semibold">Login.</span>
+                <span className="block w-full text-3xl  mb-2   tracking-tighter font-bold">Welcome !</span>
+                <span className="block w-full text-base  mb-8 tracking-tighter text-gray-700 font-medium">Login in to continue </span>
                 <form onSubmit={handlelogin} className="mb-4" method="post">
                     <div className="mb-4 md:w-full">
                         <label className="block text-xs mb-1 tracking-tighter font-semibold">Username or Email</label>
@@ -151,20 +138,17 @@ function Login() {
                         Login
                     </button>
                 </form>
-                {/* <a className="text-black hover:underline text-center text-sm tracking-tighter font-semibold" href="/login">Forgot password?</a> */}
-                <button
-                    onClick={overlay}
-                    className="bg-black hover:bg-gray-300 text-white hover:text-black uppercase text-sm px-4 py-2 rounded tracking-tighter font-semibold"
-                >
-                    left
-                </button>
+                <div className='flex flex-col'>
+                    <a className="text-black hover:underline text-start text-sm tracking-tighter font-semibold" href="/login">Forgot password?</a>
+                    <button onClick={overlay} className="bg-black mt-5  hover:bg-gray-300 text-white hover:text-black uppercase text-sm  p-2 rounded tracking-tighter font-semibold" >Don't have an account ?</button>
+                </div>
             </div>
 
             {/*  OVERLAY */}
             <div className={`w-1/2 h-full absolute z-50 top-0 ${overlayscreen} ease-in-out transition-all  duration-1000  p-16 flex justify-center items-center bg-black`}  >
                 <h1 className='text-[9vw] text-white  font-semibold leading-tight  tracking-tighter'>Docs.</h1>
             </div>
-        </motion.div>
+        </div>
 
 
     )

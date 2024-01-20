@@ -58,17 +58,17 @@ app.post("/login", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    console.log(Password, entertered_user.Password);
-    const verified = bcrypt.compare(
-      req.body.password,
-      entertered_user.Password
+    let verified = await bcrypt.compare(
+      req.body.Password,
+      entertered_user.Password,
     );
-    console.log(verified);
+    res.send(verified);
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 });
+ 
 app.listen(PORT, () => {
   console.log("server is running on port 5000 ");
 });
