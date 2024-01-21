@@ -3,10 +3,11 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import connectdb from "./database.js";
-import Usermodel from "./Model.js";
+import Usermodel from "./UserModel.js";
 import cookieParser from "cookie-parser";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import Taskmodel from "./Taskmodel.js";
 const PORT = process.env.PORT;
 const app = express();
 app.use(
@@ -38,7 +39,7 @@ app.post("/register", async (req, res) => {
         Password: hashedPassword,
       });
       const userid = newUser._id;
-      const token = jwt.sign({userid}, process.env.jwt_secret);
+      const token = jwt.sign({ userid }, process.env.jwt_secret);
       res.cookie("Token", token, { maxAge: 3600000 });
       return res
         .status(200)
@@ -64,7 +65,7 @@ app.post("/login", async (req, res) => {
       entertered_user.Password
     );
     const userid = entertered_user._id;
-    const token = jwt.sign({userid}, process.env.jwt_secret);
+    const token = jwt.sign({ userid }, process.env.jwt_secret);
     res.cookie("Token", token, { maxAge: 3600000, httpsecure: true });
     return res.send(verified);
   } catch (error) {
@@ -78,6 +79,17 @@ app.post("/userdata", async (req, res) => {
   const id = jwt.verify(token, process.env.jwt_secret);
   const user = await Usermodel.findById({ _id: id.userid });
   res.send(user);
+});
+
+app.post("/taskcreated", async (req, res) => {
+  const { Title, Discription } = req.body;
+  const token = req.cookies.Token;
+  console.log(token);
+  const Task = await Taskmodel.create({
+    title: Title,
+    discription: Discription
+  });
+  res.send(Task);
 });
 
 app.listen(PORT, () => {
