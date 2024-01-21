@@ -36,9 +36,6 @@ const isAuthenticate = async (req, res, next) => {
     return res.status(401).json({ error: "Unauthorized" });
   }
 };
-   
-
-
 
 app.post("/register", async (req, res) => {
   try {
@@ -89,14 +86,18 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/userdata",isAuthenticate , async (req, res) => {
+app.post("/userdata", isAuthenticate, async (req, res) => {
   res.send(req.user);
-  console.log(req.user)
+  console.log(req.user);
+});
+app.get("/workspace", isAuthenticate, async (req, res) => {
+  const user = req.user;
+  const workspace = await Taskmodel.find({ createdBY: user._id });
+  res.json(workspace);
 });
 
 app.post("/taskcreated", isAuthenticate, async (req, res) => {
   const { Title, Discription } = req.body;
-  console.log(req.user);
   const Task = await Taskmodel.create({
     title: Title,
     discription: Discription,
@@ -104,7 +105,6 @@ app.post("/taskcreated", isAuthenticate, async (req, res) => {
   });
   res.send(Task);
 });
-//abb ky krna h tumhe ek fucction banana h authenticate krek jo deckhe ki agr token h to us user k data req.user me save krde .. aur nhi h to error  pass krde . .. 
 
 app.listen(PORT, () => {
   console.log("server is running on port 5000 ");

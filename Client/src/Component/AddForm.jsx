@@ -6,6 +6,7 @@ import { IoSend } from "react-icons/io5";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+
 function AddForm() {
     const [Title, setTitle] = useState("")
     const titlehandler = (e) => {
@@ -17,6 +18,7 @@ function AddForm() {
         setDiscription(e.target.value);
 
     }
+    const navigate = useNavigate();
     const FormAdded = async (e) => {
         e.preventDefault();
         console.log(Title, Discription);
@@ -24,10 +26,8 @@ function AddForm() {
             Title: Title,
             Discription: Discription,
         })
-
-        console.log(form);
+        navigate('/foreground')
     }
-
     return (
         <div className={`absolute overflow-hidden place-items-center w-[40%] h-[88%] top-1/2 shadow-2xl left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl  bg-white  `}>
             <div className='h-10 mt-2 p-5 flex justify-between items-center bg-zinc-200'>
@@ -56,7 +56,6 @@ function AddForm() {
                     <button className='p-3 rounded-full
                      bg-green-500' type='submit' ><IoSend className='ml-1' color='white' size={20} />
                     </button>
-
                 </div>
             </form>
         </div>
