@@ -25,6 +25,21 @@ app.get("/", (req, res) => {
   res.send(" SERVER HOME PAGE ");
 });
 
+const isAuthenticate = async (req, res, next) => {
+  const token = req.cookies.Token;
+  try {
+    const decoded = jwt.verify(token, process.env.jwt_secret);
+    const user = await Usermodel.findOne({ _id: decoded.userid });
+    req.user = user;
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+};
+   
+
+
+
 app.post("/register", async (req, res) => {
   try {
     const { Username, Email, Password } = req.body;
@@ -74,23 +89,22 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/userdata", async (req, res) => {
-  const token = req.cookies.Token;
-  const id = jwt.verify(token, process.env.jwt_secret);
-  const user = await Usermodel.findById({ _id: id.userid });
-  res.send(user);
+app.post("/userdata",isAuthenticate , async (req, res) => {
+  res.send(req.user);
+  console.log(req.user)
 });
 
-app.post("/taskcreated", async (req, res) => {
+app.post("/taskcreated", isAuthenticate, async (req, res) => {
   const { Title, Discription } = req.body;
-  const token = req.cookies.Token;
-  console.log(token);
+  console.log(req.user);
   const Task = await Taskmodel.create({
     title: Title,
-    discription: Discription
+    discription: Discription,
+    createdBY: req.user._id,
   });
   res.send(Task);
 });
+//abb ky krna h tumhe ek fucction banana h authenticate krek jo deckhe ki agr token h to us user k data req.user me save krde .. aur nhi h to error  pass krde . .. 
 
 app.listen(PORT, () => {
   console.log("server is running on port 5000 ");
