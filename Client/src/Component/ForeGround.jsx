@@ -14,7 +14,6 @@ function ForeGround() {
             setUserData(response.data);
         } catch (error) {
             console.error("Error fetching user data:", error);
-            // Handle the error (e.g., show an error message to the user)
         }
     };
     const [workspace, setworkspace] = useState([])
@@ -24,16 +23,13 @@ function ForeGround() {
             setworkspace(workspace.data);
         } catch (error) {
             console.error("Error fetching user data:", error);
-            // Handle the error (e.g., show an error message to the user)
         }
     }
     useEffect(() => {
         getUserData();
         getWorkspace();
     }, []);
- console.log(workspace)
     
-
     const navigate = useNavigate();
     const toggleForm = () => {
         navigate('/addpage')
@@ -44,7 +40,7 @@ function ForeGround() {
             <div className='absolute px-20 right-0 text-lg' >
                 <h1 className='text-black font-normal'>Hello, <span className='font-semibold '>{userData && userData.Username}</span> </h1>
             </div>
-            <div ref={ref} className='w-full mt-[10vh] bottom-0 absolute grid grid-cols-4 gap-4 p-5 left-0 top-0 items-end'>
+            <div ref={ref} className='w-full mt-[10vh] bottom-0 absolute grid grid-cols-5  p-5 left-0 top-0 items-end'>
                 {workspace.map((item, index) => {
                     return <Card title={item.title}
                         key={index}

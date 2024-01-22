@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { MdOutlineOpenInFull } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { MdOutlineAttachment } from "react-icons/md";
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function AddForm() {
+
     const [Title, setTitle] = useState("")
     const titlehandler = (e) => {
         setTitle(e.target.value);
@@ -28,14 +29,30 @@ function AddForm() {
         })
         navigate('/foreground')
     }
+
+    const [full, setfull] = useState("w-[40%] h-[88%]")
+    const fullscreen = () => {
+        if (full == "w-[40%] h-[88%]") {
+            setfull("w-[100%] h-[100%]")
+        } else {
+            setfull("w-[40%] h-[88%]");
+        }
+    }
+ 
+
+    const back = () => {
+         navigate('/foreground')
+     }
+
+
     return (
-        <div className={`absolute overflow-hidden place-items-center w-[40%] h-[88%] top-1/2 shadow-2xl left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl  bg-white  `}>
+        <div className={`absolute overflow-hidden place-items-center ${full} top-1/2 shadow-2xl left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl  bg-white  `}>
             <div className='h-10 mt-2 p-5 flex justify-between items-center bg-zinc-200'>
                 <h1 className='font-medium'>FORM</h1>
                 <div className='flex justify-between items-center'>
-                    <button className='mr-4'><MdOutlineOpenInFull size={20} />
+                    <button onClick={fullscreen} className='mr-4'><MdOutlineOpenInFull size={20} />
                     </button>
-                    <button><RxCross2 size={20} />
+                    <button onClick={back}><RxCross2 size={20} />
                     </button>
                 </div>
             </div>

@@ -88,7 +88,7 @@ app.post("/login", async (req, res) => {
 
 app.post("/userdata", isAuthenticate, async (req, res) => {
   res.send(req.user);
-  console.log(req.user);
+  // console.log(req.user);
 });
 app.get("/workspace", isAuthenticate, async (req, res) => {
   const user = req.user;
