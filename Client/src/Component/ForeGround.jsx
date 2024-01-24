@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import Card from './Card'
 import axios from 'axios'
 import { IoIosAdd } from "react-icons/io";
-import AddForm from './AddForm';
 import { useNavigate } from 'react-router-dom';
 axios.defaults.withCredentials = true;
 function ForeGround() {
@@ -29,14 +28,14 @@ function ForeGround() {
         getUserData();
         getWorkspace();
     }, []);
-    
+
     const navigate = useNavigate();
     const toggleForm = () => {
         navigate('/addpage')
     };
 
     return (<>
-        <div  className='absolute z-10 top-0 p-10  left-0 w-full h-screen bg-transparent  flex gap-10 '>
+        <div className='absolute z-10 top-0 p-10  left-0 w-full h-screen bg-transparent  flex gap-10 '>
             <div className='absolute px-20 right-0 text-lg' >
                 <h1 className='text-black font-normal'>Hello, <span className='font-semibold '>{userData && userData.Username}</span> </h1>
             </div>
@@ -44,7 +43,9 @@ function ForeGround() {
                 {workspace.map((item, index) => {
                     return <Card title={item.title}
                         key={index}
-                        discription={item.discription} reference={ref} />
+                        discription={item.discription} reference={ref}
+                        itemid={item._id}
+                    />
                 })}
 
             </div>

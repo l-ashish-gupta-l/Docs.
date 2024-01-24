@@ -1,14 +1,14 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { MdOutlineOpenInFull } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { MdOutlineAttachment } from "react-icons/md";
 import { IoSend } from "react-icons/io5";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
-function AddForm() {
-
+function AddForm(props) {
+    const { itemid } = useParams();
     const [Title, setTitle] = useState("")
     const titlehandler = (e) => {
         setTitle(e.target.value);
@@ -38,10 +38,22 @@ function AddForm() {
             setfull("w-[40%] h-[88%]");
         }
     }
-    
+
     const back = () => {
         navigate('/foreground')
     }
+    const [Taskdata, setTaskdata] = useState([])
+    console.log(Taskdata)
+
+    useEffect(() => {
+        const task = async () => {
+            const data = await axios.get(`http://localhost:5000/updatepage/${itemid}`)
+            setTaskdata(data.data);
+        }
+        task();
+
+    }, [])
+
 
 
     return (
@@ -57,8 +69,10 @@ function AddForm() {
             </div>
             <form className='h-full' onSubmit={FormAdded} method='POST' encType="multipart/form-data" >
                 <div className='w-[90%] my-5 h-[75%] mx-auto '>
-                    <input onChange={titlehandler} className='w-full p-5 text-3xl font-bold border-b-2 h-16 focus:border-0 focus:outline-none focus:border-b-2' name='title' placeholder='Title'></input>
+                    <input onChange={titlehandler} className='w-full p-5 text-3xl font-bold border-b-2 h-16 focus:border-0 focus:outline-none focus:border-b-2' name='title'
+                        value={Taskdata.title || " "} placeholder='Title'></input>
                     <textarea onChange={discriptionhandler}
+                        value={Taskdata.discription || " "}
                         className='w-full p-5 text-lg h-[88%]  focus:border-0 focus:outline-none  resize-none'
                         name='description'
                         placeholder='Description'

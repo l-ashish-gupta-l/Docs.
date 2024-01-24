@@ -106,6 +106,34 @@ app.post("/taskcreated", isAuthenticate, async (req, res) => {
   res.send(Task);
 });
 
+app.get("/updatepage/:id", async (req, res) => {
+  console.log(req.params.id);
+  try {
+    const task = await Taskmodel.findById(req.params.id);
+    res.send(task);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+app.put("/updatetask/:id", isAuthenticate, async (req, res) => {
+  const { Title, Discription } = req.body;
+  try {
+    const task = await Taskmodel.findByIdAndUpdate(
+      req.params.id,
+      {
+        title: Title,
+        discription: Discription,
+      },
+      { new: true }
+    );
+    res.send(task);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
+
 app.listen(PORT, () => {
   console.log("server is running on port 5000 ");
 });
