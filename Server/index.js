@@ -8,6 +8,10 @@ import cookieParser from "cookie-parser";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Taskmodel from "./Taskmodel.js";
+import fileuploadonCloudinary from "./Cloudinary.js";
+import multerfileupload from "./middleware/Multer.js";
+import fs from 'fs'
+
 const PORT = process.env.PORT;
 const app = express();
 app.use(
@@ -36,6 +40,8 @@ const isAuthenticate = async (req, res, next) => {
     return res.status(401).json({ error: "Unauthorized" });
   }
 };
+
+
 
 app.post("/register", async (req, res) => {
   try {
@@ -96,15 +102,36 @@ app.get("/workspace", isAuthenticate, async (req, res) => {
   res.json(workspace);
 });
 
-app.post("/taskcreated", isAuthenticate, async (req, res) => {
-  const { Title, Discription } = req.body;
-  const Task = await Taskmodel.create({
-    title: Title,
-    discription: Discription,
-    createdBY: req.user._id,
-  });
-  res.send(Task);
-});
+app.post(
+  "/taskcreated",
+  isAuthenticate,
+  multerfileupload.single("file"),
+  async (req, res) => {
+    try {
+      const { Title, Discription } = req.body;
+
+      const fileUrl = req.file
+        ? (await fileuploadonCloudinary(req.file.path)).url
+        : null;
+
+      if (req.file) {
+        fs.unlinkSync(req.file.path);
+      }
+
+      const Task = await Taskmodel.create({
+        title: Title,
+        discription: Discription,
+        createdBY: req.user._id,
+        file: fileUrl,
+      });
+
+      res.status(201).send(Task);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
 
 app.get("/updatepage/:id", async (req, res) => {
   console.log(req.params.id);

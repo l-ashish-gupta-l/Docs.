@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 
 const pageSchema = new mongoose.Schema({
@@ -7,6 +6,10 @@ const pageSchema = new mongoose.Schema({
   createdBY: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Usermodel",
+  },
+  file: {
+    type: String,
+    default: null,
   },
 });
 

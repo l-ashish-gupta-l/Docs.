@@ -19,13 +19,26 @@ function AddForm() {
         setDiscription(e.target.value);
 
     }
+    const [file, setFile] = useState(null);
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
+    };
+
+
     const navigate = useNavigate();
     const FormAdded = async (e) => {
         e.preventDefault();
         const form = await axios.post("http://localhost:5000/taskcreated", {
             Title: Title,
             Discription: Discription,
+            file: file
+        }, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
         })
+        
         navigate('/foreground')
     }
 
@@ -37,7 +50,7 @@ function AddForm() {
             setfull("w-[40%] h-[88%]");
         }
     }
-    
+
     const back = () => {
         navigate('/foreground')
     }
@@ -75,7 +88,6 @@ function AddForm() {
                             className="hidden"
                             onChange={(e) => handleFileChange(e)}
                         />
-
                     </div>
 
                     <button className='p-3 rounded-full
