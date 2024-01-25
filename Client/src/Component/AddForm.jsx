@@ -19,12 +19,13 @@ function AddForm() {
         setDiscription(e.target.value);
 
     }
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState("");
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         setFile(selectedFile);
     };
 
+    //file.name me tumhari file k name acess ho jayega tumhe bus ek niche section banana h jo uss name ko show kreeee jab hamri file add ho aur agr null ho uski value to wo rinder hi n ho 
 
     const navigate = useNavigate();
     const FormAdded = async (e) => {
@@ -55,6 +56,8 @@ function AddForm() {
         navigate('/foreground')
     }
 
+     
+     
 
     return (
         <div className={`absolute overflow-hidden place-items-center ${full} top-1/2 shadow-2xl left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl  bg-white  `}>
@@ -71,10 +74,11 @@ function AddForm() {
                 <div className='w-[90%] my-5 h-[75%] mx-auto '>
                     <input onChange={titlehandler} className='w-full p-5 text-3xl font-bold border-b-2 h-16 focus:border-0 focus:outline-none focus:border-b-2' name='title' placeholder='Title'></input>
                     <textarea onChange={discriptionhandler}
-                        className='w-full p-5 text-lg h-[88%]  focus:border-0 focus:outline-none  resize-none'
+                        className='w-full p-5 text-lg h-[80%]  focus:border-0 focus:outline-none  resize-none'
                         name='description'
                         placeholder='Description'
                     />
+                    <h1>{file.name}</h1>
                 </div>
                 < div className='h-12 p-2 m-5 flex justify-between items-center'>
                     <div className="flex items-center">
@@ -85,6 +89,7 @@ function AddForm() {
                         <input
                             type="file"
                             id="fileInput"
+                            name='file'
                             className="hidden"
                             onChange={(e) => handleFileChange(e)}
                         />

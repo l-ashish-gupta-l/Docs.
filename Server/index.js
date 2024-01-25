@@ -10,7 +10,7 @@ import jwt from "jsonwebtoken";
 import Taskmodel from "./Taskmodel.js";
 import fileuploadonCloudinary from "./Cloudinary.js";
 import multerfileupload from "./middleware/Multer.js";
-import fs from 'fs'
+import fs from "fs";
 
 const PORT = process.env.PORT;
 const app = express();
@@ -40,8 +40,6 @@ const isAuthenticate = async (req, res, next) => {
     return res.status(401).json({ error: "Unauthorized" });
   }
 };
-
-
 
 app.post("/register", async (req, res) => {
   try {
@@ -109,7 +107,7 @@ app.post(
   async (req, res) => {
     try {
       const { Title, Discription } = req.body;
-
+      console.log(req.file);
       const fileUrl = req.file
         ? (await fileuploadonCloudinary(req.file.path)).url
         : null;
@@ -134,7 +132,6 @@ app.post(
 );
 
 app.get("/updatepage/:id", async (req, res) => {
-  console.log(req.params.id);
   try {
     const task = await Taskmodel.findById(req.params.id);
     res.send(task);
@@ -143,13 +140,12 @@ app.get("/updatepage/:id", async (req, res) => {
   }
 });
 
-
 app.patch("/updatetask/:id", isAuthenticate, async (req, res) => {
   try {
     const updatedTask = await Taskmodel.findByIdAndUpdate(
       req.params.id,
       {
-        title: req.body.title ,
+        title: req.body.title,
         discription: req.body.discription,
       },
       { new: true }
@@ -160,7 +156,6 @@ app.patch("/updatetask/:id", isAuthenticate, async (req, res) => {
   }
 });
 
-
 app.delete("/delete/:id", isAuthenticate, async (req, res) => {
   try {
     console.log(req.params.id);
@@ -169,7 +164,7 @@ app.delete("/delete/:id", isAuthenticate, async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-})
+});
 
 app.listen(PORT, () => {
   console.log("server is running on port 5000 ");
