@@ -22,7 +22,6 @@ function AddForm() {
     const navigate = useNavigate();
     const FormAdded = async (e) => {
         e.preventDefault();
-        console.log(Title, Discription);
         const form = await axios.post("http://localhost:5000/taskcreated", {
             Title: Title,
             Discription: Discription,

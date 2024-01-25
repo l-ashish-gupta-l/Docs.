@@ -117,17 +117,27 @@ app.get("/updatepage/:id", async (req, res) => {
 });
 
 
-app.put("/updatetask/:id", isAuthenticate, async (req, res) => {
-  const { Title, Discription } = req.body;
+app.patch("/updatetask/:id", isAuthenticate, async (req, res) => {
   try {
-    const task = await Taskmodel.findByIdAndUpdate(
+    const updatedTask = await Taskmodel.findByIdAndUpdate(
       req.params.id,
       {
-        title: Title,
-        discription: Discription,
+        title: req.body.title ,
+        discription: req.body.discription,
       },
       { new: true }
     );
+    res.send(updatedTask);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+app.delete("/delete/:id", isAuthenticate, async (req, res) => {
+  try {
+    console.log(req.params.id);
+    const task = await Taskmodel.findByIdAndDelete(req.params.id);
     res.send(task);
   } catch (error) {
     res.status(500).json({ error: error.message });

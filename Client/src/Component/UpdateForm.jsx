@@ -9,27 +9,28 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 function AddForm(props) {
     const { itemid } = useParams();
-    const [Title, setTitle] = useState("")
+    const [Taskdata, setTaskdata] = useState({
+        title: '',
+        discription: '',
+    });
+
+
+
     const titlehandler = (e) => {
-        setTitle(e.target.value);
+        setTaskdata({
+            ...Taskdata,
+            title: e.target.value,
+        });
+    };
 
-    }
-    const [Discription, setDiscription] = useState("")
     const discriptionhandler = (e) => {
-        setDiscription(e.target.value);
+        setTaskdata({
+            ...Taskdata,
+            discription: e.target.value,
+        });
+    };
 
-    }
     const navigate = useNavigate();
-    const FormAdded = async (e) => {
-        e.preventDefault();
-        console.log(Title, Discription);
-        const form = await axios.post("http://localhost:5000/taskcreated", {
-            Title: Title,
-            Discription: Discription,
-        })
-        navigate('/foreground')
-    }
-
     const [full, setfull] = useState("w-[40%] h-[88%]")
     const fullscreen = () => {
         if (full == "w-[40%] h-[88%]") {
@@ -42,8 +43,6 @@ function AddForm(props) {
     const back = () => {
         navigate('/foreground')
     }
-    const [Taskdata, setTaskdata] = useState([])
-    console.log(Taskdata)
 
     useEffect(() => {
         const task = async () => {
@@ -53,6 +52,20 @@ function AddForm(props) {
         task();
 
     }, [])
+
+    const updatetask = async (e) => {
+        e.preventDefault();
+        try {
+            const updatedData = await axios.patch(`http://localhost:5000/updatetask/${itemid}`, {
+                title: Taskdata.title,
+                discription: Taskdata.discription,
+            });
+
+            navigate('/foreground');
+        } catch (error) {
+            console.error('Error updating task:', error.message);
+        }
+    };
 
 
 
@@ -67,7 +80,7 @@ function AddForm(props) {
                     </button>
                 </div>
             </div>
-            <form className='h-full' onSubmit={FormAdded} method='POST' encType="multipart/form-data" >
+            <form className='h-full' onSubmit={updatetask} method='Patch' encType="multipart/form-data" >
                 <div className='w-[90%] my-5 h-[75%] mx-auto '>
                     <input onChange={titlehandler} className='w-full p-5 text-3xl font-bold border-b-2 h-16 focus:border-0 focus:outline-none focus:border-b-2' name='title'
                         value={Taskdata.title || " "} placeholder='Title'></input>
