@@ -26,11 +26,13 @@ function AddForm() {
         setFile(selectedFile);
     };
 
-    //  const [hidden,sethidden]=useState("p-0")
+    const [hidden, sethidden] = useState("p-0")
+    
     const getFileTypeIcon = () => {
         if (file) {
+            
             const fileType = file.type;
-
+                 
             if (fileType.startsWith('image')) {
                 return <FaFileImage />;
             } else if (fileType.startsWith('audio')) {
@@ -62,6 +64,7 @@ function AddForm() {
 
         navigate('/foreground')
     }
+
 
     const [full, setfull] = useState("w-[40%] h-[88%]")
     const fullscreen = () => {
@@ -114,11 +117,12 @@ function AddForm() {
                             onChange={(e) => handleFileChange(e)}
                         />
                     </div>
-                    <div className={` flex justify-center items-center  bg-slate-500  -ml-36 text-xs text-white rounded-full `} >
-                        {getFileTypeIcon()}
-                        {file && <span className=''>{file.name}</span>}
-                    </div>
-
+                    {file && (
+                        <div className={`flex justify-center items-center bg-slate-500 -ml-36 text-xs text-white rounded-full p-2 gap-2`}>
+                            {getFileTypeIcon()}
+                            <span className=''>{file.name}</span>
+                        </div>
+                    )}
                     <button className='p-3 rounded-full
                      bg-green-500' type='submit' ><IoSend className='ml-1' color='white' size={20} />
                     </button>
