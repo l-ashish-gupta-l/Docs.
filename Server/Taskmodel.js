@@ -11,6 +11,14 @@ const pageSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  fileName: {
+    type: String,
+    default: null,
+  },
+  fileType: {
+    type: String,
+    default: null,
+  },
 });
 
 const Taskmodel = mongoose.model("Page", pageSchema);

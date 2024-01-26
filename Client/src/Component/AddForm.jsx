@@ -27,12 +27,12 @@ function AddForm() {
     };
 
     const [hidden, sethidden] = useState("p-0")
-    
+
     const getFileTypeIcon = () => {
         if (file) {
-            
+
             const fileType = file.type;
-                 
+
             if (fileType.startsWith('image')) {
                 return <FaFileImage />;
             } else if (fileType.startsWith('audio')) {
@@ -47,15 +47,16 @@ function AddForm() {
         return null;
     };
 
-    //file.name me tumhari file k name acess ho jayega tumhe bus ek niche section banana h jo uss name ko show kreeee jab hamri file add ho aur agr null ho uski value to wo rinder hi n ho 
 
     const navigate = useNavigate();
     const FormAdded = async (e) => {
         e.preventDefault();
+        console.log(file);
         const form = await axios.post("http://localhost:5000/taskcreated", {
             Title: Title,
             Discription: Discription,
-            file: file
+            file: file,
+
         }, {
             headers: {
                 'Content-Type': 'multipart/form-data',

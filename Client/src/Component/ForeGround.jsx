@@ -45,6 +45,8 @@ function ForeGround() {
                         key={index}
                         discription={item.discription} reference={ref}
                         itemid={item._id}
+                        fileName={item.fileName}
+                        fileType={item.fileType}
                     />
                 })}
 

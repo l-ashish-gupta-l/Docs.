@@ -121,6 +121,8 @@ app.post(
         discription: Discription,
         createdBY: req.user._id,
         file: fileUrl,
+        fileName: req.file.filename,
+        fileType: req.file.mimetype,
       });
 
       res.status(201).send(Task);
