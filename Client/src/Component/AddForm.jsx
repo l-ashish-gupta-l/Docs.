@@ -5,6 +5,7 @@ import { MdOutlineAttachment } from "react-icons/md";
 import { IoSend } from "react-icons/io5";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { FaFileImage, FaFileAudio, FaFileVideo, FaFile } from 'react-icons/fa';
 
 
 function AddForm() {
@@ -25,6 +26,25 @@ function AddForm() {
         setFile(selectedFile);
     };
 
+    //  const [hidden,sethidden]=useState("p-0")
+    const getFileTypeIcon = () => {
+        if (file) {
+            const fileType = file.type;
+
+            if (fileType.startsWith('image')) {
+                return <FaFileImage />;
+            } else if (fileType.startsWith('audio')) {
+                return <FaFileAudio />;
+            } else if (fileType.startsWith('video')) {
+                return <FaFileVideo />;
+            } else {
+                return <FaFile />;
+            }
+        }
+
+        return null;
+    };
+
     //file.name me tumhari file k name acess ho jayega tumhe bus ek niche section banana h jo uss name ko show kreeee jab hamri file add ho aur agr null ho uski value to wo rinder hi n ho 
 
     const navigate = useNavigate();
@@ -39,7 +59,7 @@ function AddForm() {
                 'Content-Type': 'multipart/form-data',
             },
         })
-        
+
         navigate('/foreground')
     }
 
@@ -56,8 +76,8 @@ function AddForm() {
         navigate('/foreground')
     }
 
-     
-     
+
+
 
     return (
         <div className={`absolute overflow-hidden place-items-center ${full} top-1/2 shadow-2xl left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl  bg-white  `}>
@@ -78,7 +98,7 @@ function AddForm() {
                         name='description'
                         placeholder='Description'
                     />
-                    <h1>{file.name}</h1>
+                    {/* <h1>{file.name}</h1> */}
                 </div>
                 < div className='h-12 p-2 m-5 flex justify-between items-center'>
                     <div className="flex items-center">
@@ -93,6 +113,10 @@ function AddForm() {
                             className="hidden"
                             onChange={(e) => handleFileChange(e)}
                         />
+                    </div>
+                    <div className={` flex justify-center items-center  bg-slate-500  -ml-36 text-xs text-white rounded-full `} >
+                        {getFileTypeIcon()}
+                        {file && <span className=''>{file.name}</span>}
                     </div>
 
                     <button className='p-3 rounded-full

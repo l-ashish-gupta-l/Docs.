@@ -67,7 +67,25 @@ function AddForm(props) {
         }
     };
 
+    // console.log(Taskdata);
+    // const getFileTypeIcon = () => {
+    //     console.log(Taskdata.file);
+    //     if (Taskdata.file && Taskdata.file.format) {
+    //         const fileType = Taskdata.file.format;
 
+    //         if (fileType.startsWith('image')) {
+    //             return <FaFileImage />;
+    //         } else if (fileType.startsWith('audio')) {
+    //             return <FaFileAudio />;
+    //         } else if (fileType.startsWith('video')) {
+    //             return <FaFileVideo />;
+    //         } else {
+    //             return <FaFile />;
+    //         }
+    //     }
+
+    //     return null;
+    // };
 
     return (
         <div className={`absolute overflow-hidden place-items-center ${full} top-1/2 shadow-2xl left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl  bg-white  `}>
@@ -105,6 +123,10 @@ function AddForm(props) {
                         />
 
                     </div>
+                    {/* <div>
+                        {getFileTypeIcon()}
+                        {Taskdata.file && <span>{Taskdata.file.original_filename}</span>}
+                    </div> */}
 
                     <button className='p-3 rounded-full
                      bg-green-500' type='submit' ><IoSend className='ml-1' color='white' size={20} />
