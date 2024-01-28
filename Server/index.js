@@ -11,6 +11,7 @@ import Taskmodel from "./Taskmodel.js";
 import fileuploadonCloudinary from "./Cloudinary.js";
 import multerfileupload from "./middleware/Multer.js";
 import fs from "fs";
+import  { MongoClient } from "mongodb";
 
 const PORT = process.env.PORT;
 const app = express();
@@ -97,6 +98,7 @@ app.post("/userdata", isAuthenticate, async (req, res) => {
 app.get("/workspace", isAuthenticate, async (req, res) => {
   const user = req.user;
   const workspace = await Taskmodel.find({ createdBY: user._id });
+  console.log(workspace[0]);
   res.json(workspace);
 });
 

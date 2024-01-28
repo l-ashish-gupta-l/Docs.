@@ -6,7 +6,6 @@ import { IoSend } from "react-icons/io5";
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaFileImage, FaFileAudio, FaFileVideo, FaFile } from 'react-icons/fa';
-
 function AddForm(props) {
     const { itemid } = useParams();
     const [Taskdata, setTaskdata] = useState([]);
@@ -84,8 +83,13 @@ function AddForm(props) {
         return null;
     };
 
-    
-
+    console.log(Taskdata.file);
+    const handleButtonClick = (e) => {
+        e.preventDefault(); 
+        if (Taskdata.file) {
+            window.open(Taskdata.file, '_blank');
+        }
+    };
     return (
         <div className={`absolute overflow-hidden place-items-center ${full} top-1/2 shadow-2xl left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl  bg-white  `}>
             <div className='h-10 mt-2 p-5 flex justify-between items-center bg-zinc-200'>
@@ -123,13 +127,13 @@ function AddForm(props) {
 
                     </div>
                     {Taskdata.fileName && (
-                        <div className={`flex justify-center items-center bg-slate-500 -ml-36 text-xs text-white rounded-full p-2 gap-2`}>
+                        <button onClick={handleButtonClick}  className={`flex justify-center items-center bg-slate-500 -ml-36 text-xs text-white rounded-full p-2 gap-2`}>
                             {getFileTypeIcon()}
-                            <span className=''>{Taskdata.fileName}</span>
-                        </div>
+                            <span >{Taskdata.fileName}</span>
+                        </button>
                     )}
 
-                    <button className='p-3 rounded-full
+                    <button  className='p-3 rounded-full
                      bg-green-500' type='submit' ><IoSend className='ml-1' color='white' size={20} />
                     </button>
                 </div>

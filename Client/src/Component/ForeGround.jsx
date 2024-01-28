@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import Card from './Card'
 import axios from 'axios'
 import { IoIosAdd } from "react-icons/io";
+import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 axios.defaults.withCredentials = true;
 function ForeGround() {
@@ -25,6 +26,7 @@ function ForeGround() {
         }
     }
     useEffect(() => {
+        console.log(workspace)
         getUserData();
         getWorkspace();
     }, []);
@@ -34,10 +36,19 @@ function ForeGround() {
         navigate('/addpage')
     };
 
+    const logout = () => {
+        
+        navigate('/');
+    }
+
     return (<>
         <div className='absolute z-10 top-0 p-10  left-0 w-full h-screen bg-transparent  flex gap-10 '>
-            <div className='absolute px-20 right-0 text-lg' >
+            <div className='absolute flex justify-between items-center w-full px-20 right-0 text-lg 
+            ' >
                 <h1 className='text-black font-normal'>Hello, <span className='font-semibold '>{userData && userData.Username}</span> </h1>
+                <button onClick={logout} className='flex justify-center font-normal items-center gap-1'>
+                    <span className='font-semibold '><u>Logout</u></span>
+                    <FaArrowRight size={12} className='mt-1' /> </button>
             </div>
             <div ref={ref} className='w-full mt-[10vh] bottom-0 absolute grid grid-cols-5  p-5 left-0 top-0 items-end'>
                 {workspace.map((item, index) => {

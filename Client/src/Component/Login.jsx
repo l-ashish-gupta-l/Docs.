@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom';
 import axios from "axios"
-
+import { toast } from 'react-toastify';
 function Login() {
     //overlay animation
     const [overlayscreen, setoverlayscreen] = useState("right-0");
@@ -40,6 +40,7 @@ function Login() {
     //register
     const handleregister = async (e) => {
         e.preventDefault();
+
         try {
             const response = await axios.post("http://localhost:5000/register", {
                 Username: username,
@@ -51,14 +52,19 @@ function Login() {
 
             console.log(response);
 
+
         } catch (error) {
+            console.error(error);
+
             if (error.response && error.response.status === 400) {
-                console.error('Registration error:', error.response.data.message);
+                toast(`😊 ${error.response.data.message}`,
+                );
             } else {
-                console.error('An unexpected error occurred during registration:', error);
+                toast(`☹️ An unexpected error occurred during registration: ${error.message}`);
             }
         }
     };
+
 
 
 
@@ -66,21 +72,51 @@ function Login() {
     const handlelogin = async (e) => {
         e.preventDefault();
 
-        const res = await axios.post("http://localhost:5000/login", {
-            Email: email,
-            Password: password
-        }, {
-            withCredentials: true
-        })
-        console.log(res.data);
-        if (res.data) {
-            navigate("/foreground");
-        }
-        else {
-            console.log("wrong password")
-        }
+        try {
+            const res = await axios.post("http://localhost:5000/login", {
+                Email: email,
+                Password: password
+            }, {
+                withCredentials: true
+            });
 
-    }
+            console.log(res.data);
+
+            if (res.data) {
+                navigate("/foreground");
+            } else {
+                toast('😒 Wrong password', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    type: "error"
+                })
+            }
+
+        } catch (error) {
+
+            if (error.response && error.response.status === 404) {
+                toast(" 😠 Unauthorized: Invalid email or password");
+            } else {
+                toast('😒 Wrong Password', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+
+                });
+            }
+        }
+    };
 
 
 
