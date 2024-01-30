@@ -11,8 +11,7 @@ import Taskmodel from "./Taskmodel.js";
 import fileuploadonCloudinary from "./Cloudinary.js";
 import multerfileupload from "./middleware/Multer.js";
 import fs from "fs";
-import  { MongoClient } from "mongodb";
-
+import pdfkit from "pdfkit";
 const PORT = process.env.PORT;
 const app = express();
 app.use(
@@ -109,7 +108,6 @@ app.post(
   async (req, res) => {
     try {
       const { Title, Discription } = req.body;
-      console.log(req.file);
       const fileUrl = req.file
         ? (await fileuploadonCloudinary(req.file.path)).url
         : null;
@@ -117,19 +115,18 @@ app.post(
       if (req.file) {
         fs.unlinkSync(req.file.path);
       }
-
       const Task = await Taskmodel.create({
         title: Title,
         discription: Discription,
         createdBY: req.user._id,
         file: fileUrl,
-        fileName: req.file.filename,
-        fileType: req.file.mimetype,
+        fileName: req.file ? req.file.filename : null,
+        fileType: req.file ? req.file.mimetype : null,
       });
 
       res.status(201).send(Task);
     } catch (error) {
-      console.error(error);
+      console.log(error)
       res.status(500).json({ error: "Internal Server Error" });
     }
   }
@@ -167,6 +164,25 @@ app.delete("/delete/:id", isAuthenticate, async (req, res) => {
     res.send(task);
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/generate-pdf/:documentId", async (req, res) => {
+  try {
+    const document = await Taskmodel.findById(req.params.documentId);
+
+    // Create a PDF using pdfkit
+    const doc = new pdfkit();
+    doc.text(JSON.stringify(document)); // Customize this based on your document structure
+
+    // Pipe the PDF to the response
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=Generated.pdf");
+    doc.pipe(res);
+    doc.end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
   }
 });
 

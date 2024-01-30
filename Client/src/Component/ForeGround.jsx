@@ -37,7 +37,7 @@ function ForeGround() {
     };
 
     const logout = () => {
-        
+
         navigate('/');
     }
 
@@ -58,6 +58,7 @@ function ForeGround() {
                         itemid={item._id}
                         fileName={item.fileName}
                         fileType={item.fileType}
+                        fileUrl={item.file}
                     />
                 })}
 

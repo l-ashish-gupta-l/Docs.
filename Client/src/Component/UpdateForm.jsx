@@ -5,7 +5,10 @@ import { MdOutlineAttachment } from "react-icons/md";
 import { IoSend } from "react-icons/io5";
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FaFileImage, FaFileAudio, FaFileVideo, FaFile } from 'react-icons/fa';
+import { IoDocumentTextOutline } from "react-icons/io5";
+import { TbPhotoSquareRounded } from "react-icons/tb";
+import { MdOutlineAudioFile } from "react-icons/md";
+import { IoVideocamOutline } from "react-icons/io5";
 function AddForm(props) {
     const { itemid } = useParams();
     const [Taskdata, setTaskdata] = useState([]);
@@ -70,13 +73,13 @@ function AddForm(props) {
             const fileType = Taskdata.fileType;
 
             if (fileType.startsWith('image')) {
-                return <FaFileImage />;
+                return <TbPhotoSquareRounded size={15} />;
             } else if (fileType.startsWith('audio')) {
-                return <FaFileAudio />;
+                return <MdOutlineAudioFile size={15} />;
             } else if (fileType.startsWith('video')) {
-                return <FaFileVideo />;
+                return <IoVideocamOutline size={15} />;
             } else {
-                return <FaFile />;
+                return <IoDocumentTextOutline size={15} />;
             }
         }
 
@@ -85,7 +88,7 @@ function AddForm(props) {
 
     console.log(Taskdata.file);
     const handleButtonClick = (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         if (Taskdata.file) {
             window.open(Taskdata.file, '_blank');
         }
@@ -127,13 +130,13 @@ function AddForm(props) {
 
                     </div>
                     {Taskdata.fileName && (
-                        <button onClick={handleButtonClick}  className={`flex justify-center items-center bg-slate-500 -ml-36 text-xs text-white rounded-full p-2 gap-2`}>
+                        <button onClick={handleButtonClick} className={`flex justify-center items-center bg-slate-500 -ml-36 text-xs text-white rounded-full p-2 gap-2`}>
                             {getFileTypeIcon()}
                             <span >{Taskdata.fileName}</span>
                         </button>
                     )}
 
-                    <button  className='p-3 rounded-full
+                    <button className='p-3 rounded-full
                      bg-green-500' type='submit' ><IoSend className='ml-1' color='white' size={20} />
                     </button>
                 </div>

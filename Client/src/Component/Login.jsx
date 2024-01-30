@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from "axios"
 import { toast } from 'react-toastify';
@@ -7,7 +6,6 @@ function Login() {
     //overlay animation
     const [overlayscreen, setoverlayscreen] = useState("right-0");
     const overlay = () => {
-        console.log("btn clicked");
         setoverlayscreen(prevState => {
             if (prevState === "right-0") {
                 console.log("value of flag ", 1);
@@ -19,6 +17,8 @@ function Login() {
         });
 
     };
+
+    const [MobileOverlay, setMobileOverlay] = useState("top-0")
 
     //    take input from form 
     const [username, setusername] = useState("")
@@ -63,9 +63,6 @@ function Login() {
             }
         }
     };
-
-
-
 
     //login 
     const handlelogin = async (e) => {
@@ -116,15 +113,11 @@ function Login() {
             }
         }
     };
-
-
-
-
     return (
-        <div className="w-full min-h-screen flex justify-center items-center">
-            <div className="w-full  md:w-[60%] relative md:flex md:overflow-hidden   bg-white rounded-2xl shadow-2xl border-[1.5px] ">
+        <div className="w-full  flex justify-center items-center">
+            <div className="  md:w-[60%] relative md:flex  bg-white rounded-2xl shadow-2xl  ease-in-out transition-all  duration-1000 border-[1.5px]">
                 {/* REGISTRATION FORM */}
-                <div className="w-full md:w-1/2 h-full py-16 px-8 md:px-16 border-r-2">
+                <div className="w-full md:w-1/2  py-16 px-8 md:px-16 border-r-2">
                     <span className="block w-full text-3xl  mb-2   tracking-tighter font-bold">Hi ! </span>
                     <span className="block w-full text-base  mb-8 tracking-tighter text-gray-700 font-medium">Create a new account </span>
                     <form onSubmit={handleregister} className="mb-4">
@@ -179,7 +172,7 @@ function Login() {
                 </div>
 
                 {/* LOGIN FORM */}
-                <div className="w-full md:w-1/2 h-full absolute bg-white right-0 p-8 md:p-16 border-r-2">
+                <div className={`w-full md:w-1/2 h-full absolute  ease-in-out transition-all sm:${MobileOverlay} duration-1000 bg-white md:right-0 p-8 md:p-16 border-r-2`}>
                     <span className="block w-full text-3xl  mb-2   tracking-tighter font-bold">Welcome !</span>
                     <span className="block w-full text-base  mb-8 tracking-tighter text-gray-700 font-medium">Login in to continue </span>
                     <form onSubmit={handlelogin} className="mb-4">
@@ -224,7 +217,7 @@ function Login() {
                 </div>
 
                 {/* OVERLAY */}
-                <div className={`md:w-1/2 hidden md:flex h-full absolute z-50 top-0 ${overlayscreen} ease-in-out transition-all  duration-1000  p-16  justify-center items-center bg-black`}  >
+                <div className={`md:w-1/2 hidden w-full md:flex md:h-full absolute z-50 top-0 ${overlayscreen}   ease-in-out transition-all  duration-1000  p-16  justify-center items-center bg-black`}  >
                     <h1 className='text-[9vw] text-white  font-semibold leading-tight  tracking-tighter'>Docs.</h1>
                 </div>
             </div>

@@ -5,7 +5,10 @@ import { MdOutlineAttachment } from "react-icons/md";
 import { IoSend } from "react-icons/io5";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaFileImage, FaFileAudio, FaFileVideo, FaFile } from 'react-icons/fa';
+import { IoDocumentTextOutline } from "react-icons/io5";
+import { TbPhotoSquareRounded } from "react-icons/tb";
+import { MdOutlineAudioFile } from "react-icons/md";
+import { IoVideocamOutline } from "react-icons/io5";
 
 
 function AddForm() {
@@ -26,37 +29,35 @@ function AddForm() {
         setFile(selectedFile);
     };
 
-    const [hidden, sethidden] = useState("p-0")
 
+    
     const getFileTypeIcon = () => {
         if (file) {
 
             const fileType = file.type;
 
             if (fileType.startsWith('image')) {
-                return <FaFileImage />;
+                return <TbPhotoSquareRounded size={15} />;
             } else if (fileType.startsWith('audio')) {
-                return <FaFileAudio />;
+                return <MdOutlineAudioFile size={15} />;
             } else if (fileType.startsWith('video')) {
-                return <FaFileVideo />;
+                return <IoVideocamOutline size={15} />;
             } else {
-                return <FaFile />;
+                return <IoDocumentTextOutline size={15} />;
             }
         }
 
         return null;
     };
 
-
     const navigate = useNavigate();
     const FormAdded = async (e) => {
         e.preventDefault();
-        console.log(file);
         const form = await axios.post("http://localhost:5000/taskcreated", {
             Title: Title,
             Discription: Discription,
             file: file,
-
+         
         }, {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -102,7 +103,6 @@ function AddForm() {
                         name='description'
                         placeholder='Description'
                     />
-                    {/* <h1>{file.name}</h1> */}
                 </div>
                 < div className='h-12 p-2 m-5 flex justify-between items-center'>
                     <div className="flex items-center">
