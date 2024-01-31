@@ -41,7 +41,7 @@ const isAuthenticate = async (req, res, next) => {
   }
 };
 
-app.post("/register", async (req, res) => {
+const RegisterRoute = async (req, res) => {
   try {
     const { Username, Email, Password } = req.body;
     const existingUser = await Usermodel.findOne({ Email: Email });
@@ -65,9 +65,9 @@ app.post("/register", async (req, res) => {
     console.error("Error during registration:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
-});
+};
 
-app.post("/login", async (req, res) => {
+const LoginRoute = async (req, res) => {
   const { Username, Email, Password } = req.body;
   try {
     const entertered_user = await Usermodel.findOne({ Email: req.body.Email });
@@ -88,59 +88,34 @@ app.post("/login", async (req, res) => {
     console.error("Error during login:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
-});
+};
 
-app.post("/userdata", isAuthenticate, async (req, res) => {
-  res.send(req.user);
-  // console.log(req.user);
-});
-app.get("/workspace", isAuthenticate, async (req, res) => {
-  const user = req.user;
-  const workspace = await Taskmodel.find({ createdBY: user._id });
-  // console.log(workspace[0]);
-  res.json(workspace);
-});
-
-app.post(
-  "/taskcreated",
-  isAuthenticate,
-  multerfileupload.single("file"),
-  async (req, res) => {
-    try {
-      const { Title, Discription } = req.body;
-      const fileUrl = req.file
-        ? (await fileuploadonCloudinary(req.file.path)).url
-        : null;
-
-      if (req.file) {
-        fs.unlinkSync(req.file.path);
-      }
-      const Task = await Taskmodel.create({
-        title: Title,
-        discription: Discription,
-        createdBY: req.user._id,
-        file: fileUrl,
-        fileName: req.file ? req.file.filename : null,
-        fileType: req.file ? req.file.mimetype : null,
-      });
-
-      res.status(201).send(Task);
-    } catch (error) {
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  }
-);
-
-app.get("/updatepage/:id", async (req, res) => {
+const TaskcreatedRoute = async (req, res) => {
   try {
-    const task = await Taskmodel.findById(req.params.id);
-    res.send(task);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+    const { Title, Discription } = req.body;
+    const fileUrl = req.file
+      ? (await fileuploadonCloudinary(req.file.path)).url
+      : null;
 
-app.patch("/updatetask/:id", isAuthenticate, async (req, res) => {
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
+    const Task = await Taskmodel.create({
+      title: Title,
+      discription: Discription,
+      createdBY: req.user._id,
+      file: fileUrl,
+      fileName: req.file ? req.file.filename : null,
+      fileType: req.file ? req.file.mimetype : null,
+    });
+
+    res.status(201).send(Task);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const UpdatedTaskRoute = async (req, res) => {
   try {
     const updatedTask = await Taskmodel.findByIdAndUpdate(
       req.params.id,
@@ -154,19 +129,9 @@ app.patch("/updatetask/:id", isAuthenticate, async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+};
 
-app.delete("/delete/:id", isAuthenticate, async (req, res) => {
-  try {
-    // console.log(req.params.id);
-    const task = await Taskmodel.findByIdAndDelete(req.params.id);
-    res.send(task);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.get("/generate-pdf/:documentId", async (req, res) => {
+const GeneratepdfRoute = async (req, res) => {
   try {
     const document = await Taskmodel.findById(req.params.documentId);
 
@@ -183,7 +148,56 @@ app.get("/generate-pdf/:documentId", async (req, res) => {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
+};
+
+const DeleteRoute = async (req, res) => {
+  try {
+    // console.log(req.params.id);
+    const task = await Taskmodel.findByIdAndDelete(req.params.id);
+    res.send(task);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const UpdatePageRoute = async (req, res) => {
+  try {
+    const task = await Taskmodel.findById(req.params.id);
+    res.send(task);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const WorkspaceRoute = async (req, res) => {
+  const user = req.user;
+  const workspace = await Taskmodel.find({ createdBY: user._id });
+  // console.log(workspace[0]);
+  res.json(workspace);
+};
+
+app.post("/register", RegisterRoute);
+
+app.post("/login", LoginRoute);
+
+app.post("/userdata", isAuthenticate, async (req, res) => {
+  res.send(req.user);
 });
+app.get("/workspace", isAuthenticate, WorkspaceRoute);
+
+app.post(
+  "/taskcreated",
+  isAuthenticate,
+  multerfileupload.single("file"),
+  TaskcreatedRoute
+);
+
+app.patch("/updatetask/:id", isAuthenticate, UpdatedTaskRoute);
+app.get("/updatepage/:id", UpdatePageRoute);
+
+app.delete("/delete/:id", isAuthenticate, DeleteRoute);
+
+app.get("/generate-pdf/:documentId", GeneratepdfRoute);
 
 app.listen(PORT, () => {
   console.log("server is running on port 5000 ");

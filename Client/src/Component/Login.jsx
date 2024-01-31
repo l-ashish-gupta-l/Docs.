@@ -16,10 +16,8 @@ function Login() {
                 return "right-0";
             }
         });
-
     };
 
-    const [MobileOverlay, setMobileOverlay] = useState("top-0")
 
     //    take input from form 
     const [username, setusername] = useState("")
@@ -36,13 +34,14 @@ function Login() {
         setpassword(e.target.value);
     }
 
+    let topLoader;
     //navigator
     const navigate = useNavigate();
     //register
     const handleregister = async (e) => {
         e.preventDefault();
-
         try {
+            topLoader.continuousStart();
             const response = await axios.post("http://localhost:5000/register", {
                 Username: username,
                 Email: email,
@@ -50,12 +49,10 @@ function Login() {
             }, {
                 withCredentials: true
             });
-
+            topLoader.complete();
             navigate("/foreground");
-
         } catch (error) {
-            console.error(error);
-
+            topLoader.complete();
             if (error.response && error.response.status === 400) {
                 toast(`😊 ${error.response.data.message}`,
                 );
@@ -66,7 +63,6 @@ function Login() {
     };
 
     //login 
-    let topLoader;
     const handlelogin = async (e) => {
         e.preventDefault();
 
@@ -78,12 +74,13 @@ function Login() {
             }, {
                 withCredentials: true
             });
-            console.log(res.data);
+            // console.log(res.data);
             if (res.data) {
-                 topLoader.complete();
+                topLoader.complete();
                 navigate("/foreground");
-            
+
             } else {
+                topLoader.complete();
                 toast('😒 Wrong password', {
                     position: "top-right",
                     autoClose: 5000,
@@ -130,13 +127,14 @@ function Login() {
                     <form onSubmit={handleregister} className="mb-4">
                         <div className="mb-4 md:w-full">
                             <label className="block text-xs mb-1 tracking-tighter font-semibold">Username</label>
-                            <input
-                                className="w-full border rounded p-2 outline-none focus:shadow-outline"
-                                type="username"
+                            <input className="w-full border rounded p-2 outline-none focus:shadow-outline"
+                                type="text"
                                 name="username"
                                 placeholder="Username"
                                 onChange={usernamehandler}
-                            />
+
+                                autoComplete="username" />
+
                         </div>
                         <div className="mb-4 md:w-full">
                             <label className="block text-xs mb-1 tracking-tighter font-semibold">Email</label>
@@ -146,6 +144,7 @@ function Login() {
                                 name="email"
                                 placeholder="Email"
                                 onChange={emailhandler}
+                                autoComplete="email"
                             />
                         </div>
                         <div className="mb-6 md:w-full">
@@ -156,6 +155,8 @@ function Login() {
                                 name="password"
                                 placeholder="Password"
                                 onChange={passwordhandler}
+                                autoComplete="new-password"
+
                             />
                         </div>
                         <button
@@ -166,9 +167,9 @@ function Login() {
                         </button>
                     </form>
                     <div className="flex flex-col">
-                        <a className="text-black hover:underline text-start text-sm tracking-tighter font-semibold" href="/login">
+                        {/* <a className="text-black hover:underline text-start text-sm tracking-tighter font-semibold" href="/login">
                             Forgot password?
-                        </a>
+                        </a> */}
                         <button
                             onClick={overlay}
                             className="bg-black mt-5 hover:bg-gray-300 text-white hover:text-black uppercase text-sm px-4 py-2 rounded tracking-tighter font-semibold"
@@ -179,7 +180,7 @@ function Login() {
                 </div>
 
                 {/* LOGIN FORM */}
-                <div className={`w-full md:w-1/2 h-full absolute  ease-in-out transition-all sm:${MobileOverlay} duration-1000 bg-white md:right-0 p-8 md:p-16 border-r-2`}>
+                <div className={`w-full md:w-1/2 h-full absolute  ease-in-out transition-all  duration-1000 bg-white md:right-0 p-8 md:p-16 border-r-2`}>
                     <span className="block w-full text-3xl  mb-2   tracking-tighter font-bold">Welcome !</span>
                     <span className="block w-full text-base  mb-8 tracking-tighter text-gray-700 font-medium">Login in to continue </span>
                     <form onSubmit={handlelogin} className="mb-4">
@@ -191,6 +192,7 @@ function Login() {
                                 name="email"
                                 placeholder="Username or Email"
                                 onChange={emailhandler}
+                                autoComplete="email"
                             />
                         </div>
                         <div className="mb-6 md:w-full">
@@ -201,6 +203,7 @@ function Login() {
                                 name="password"
                                 placeholder="Password"
                                 onChange={passwordhandler}
+                                autoComplete="current-password"
                             />
                         </div>
                         <button
@@ -211,9 +214,9 @@ function Login() {
                         </button>
                     </form>
                     <div className="flex flex-col">
-                        <a className="text-black hover:underline text-start text-sm tracking-tighter font-semibold" href="/login">
+                        {/* <a className="text-black hover:underline text-start text-sm tracking-tighter font-semibold" href="/login">
                             Forgot password?
-                        </a>
+                        </a> */}
                         <button
                             onClick={overlay}
                             className="bg-black mt-5 hover:bg-gray-300 text-white hover:text-black uppercase text-sm p-2 rounded tracking-tighter font-semibold"
