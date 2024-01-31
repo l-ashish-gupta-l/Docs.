@@ -97,7 +97,7 @@ app.post("/userdata", isAuthenticate, async (req, res) => {
 app.get("/workspace", isAuthenticate, async (req, res) => {
   const user = req.user;
   const workspace = await Taskmodel.find({ createdBY: user._id });
-  console.log(workspace[0]);
+  // console.log(workspace[0]);
   res.json(workspace);
 });
 
@@ -126,7 +126,6 @@ app.post(
 
       res.status(201).send(Task);
     } catch (error) {
-      console.log(error)
       res.status(500).json({ error: "Internal Server Error" });
     }
   }
@@ -159,7 +158,7 @@ app.patch("/updatetask/:id", isAuthenticate, async (req, res) => {
 
 app.delete("/delete/:id", isAuthenticate, async (req, res) => {
   try {
-    console.log(req.params.id);
+    // console.log(req.params.id);
     const task = await Taskmodel.findByIdAndDelete(req.params.id);
     res.send(task);
   } catch (error) {

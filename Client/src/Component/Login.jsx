@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from "axios"
 import { toast } from 'react-toastify';
+import LoadingBar from 'react-top-loading-bar';
 function Login() {
     //overlay animation
     const [overlayscreen, setoverlayscreen] = useState("right-0");
@@ -65,21 +66,23 @@ function Login() {
     };
 
     //login 
+    let topLoader;
     const handlelogin = async (e) => {
         e.preventDefault();
 
         try {
+            topLoader.continuousStart();
             const res = await axios.post("http://localhost:5000/login", {
                 Email: email,
                 Password: password
             }, {
                 withCredentials: true
             });
-
             console.log(res.data);
-
             if (res.data) {
+                 topLoader.complete();
                 navigate("/foreground");
+            
             } else {
                 toast('😒 Wrong password', {
                     position: "top-right",
@@ -95,7 +98,7 @@ function Login() {
             }
 
         } catch (error) {
-
+            topLoader.complete();
             if (error.response && error.response.status === 404) {
                 toast(" 😠 Unauthorized: Invalid email or password");
             } else {
@@ -113,7 +116,11 @@ function Login() {
             }
         }
     };
-    return (
+    return (<>
+        <LoadingBar
+            color="#808080"
+            ref={(ref) => (topLoader = ref)}
+        />
         <div className="w-full  flex justify-center items-center">
             <div className="  md:w-[60%] relative md:flex  bg-white rounded-2xl shadow-2xl  ease-in-out transition-all  duration-1000 border-[1.5px]">
                 {/* REGISTRATION FORM */}
@@ -222,7 +229,7 @@ function Login() {
                 </div>
             </div>
         </div>
-
+    </>
 
     )
 }
