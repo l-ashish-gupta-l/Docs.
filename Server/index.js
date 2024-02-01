@@ -82,10 +82,22 @@ const LoginRoute = async (req, res) => {
     );
     const userid = entertered_user._id;
     const token = jwt.sign({ userid }, process.env.jwt_secret);
-    res.cookie("Token", token, { maxAge: 3600000, httpsecure: true });
+     res.cookie("Token", token, { httpOnly: true, httpsecure: true });
     return res.send(verified);
   } catch (error) {
     console.error("Error during login:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+
+const LogoutRoute = (req, res) => {
+  try {
+    const a = res.clearCookie("Token");
+    return res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error("Error during logout:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -180,6 +192,8 @@ app.post("/register", RegisterRoute);
 
 app.post("/login", LoginRoute);
 
+app.get("/logout", LogoutRoute);
+
 app.post("/userdata", isAuthenticate, async (req, res) => {
   res.send(req.user);
 });
@@ -197,7 +211,7 @@ app.get("/updatepage/:id", UpdatePageRoute);
 
 app.delete("/delete/:id", isAuthenticate, DeleteRoute);
 
-app.get("/generate-pdf/:documentId", GeneratepdfRoute);
+app.get("/generate-pdf/:documentId", isAuthenticate, GeneratepdfRoute);
 
 app.listen(PORT, () => {
   console.log("server is running on port 5000 ");

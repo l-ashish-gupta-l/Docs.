@@ -36,11 +36,19 @@ function ForeGround() {
         navigate('/addpage')
     };
 
-    const logout = () => {
-
-        navigate('/');
-    }
-
+    const logout = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/logout', {}, { withCredentials: true });
+            console.log(response);
+            if (response) {
+                navigate('/');
+            } else {
+                console.error('Logout failed');
+            }
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
+    };
     return (<>
         <div className='absolute z-10 top-0 p-10  left-0 w-full h-screen bg-transparent  flex gap-10 '>
             <div className='absolute flex justify-between items-center w-full px-20 right-0 text-lg 

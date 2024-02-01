@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import LoginPage from './Component/Pages/LoginPage';
 import ForeGroundPage from './Component/Pages/ForeGroundPage';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
