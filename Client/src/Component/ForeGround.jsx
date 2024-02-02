@@ -4,6 +4,7 @@ import axios from 'axios'
 import { IoIosAdd } from "react-icons/io";
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 axios.defaults.withCredentials = true;
 function ForeGround() {
     const ref = useRef(null)
@@ -13,6 +14,17 @@ function ForeGround() {
             const response = await axios.post("http://localhost:5000/userdata");
             setUserData(response.data);
         } catch (error) {
+            toast('😒 Login First', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+
+            })
             console.error("Error fetching user data:", error);
         }
     };
@@ -22,7 +34,17 @@ function ForeGround() {
             const workspace = await axios.get("http://localhost:5000/workspace");
             setworkspace(workspace.data);
         } catch (error) {
-            console.error("Error fetching user data:", error);
+            toast('😒 Login First', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+
+            })
         }
     }
     useEffect(() => {
@@ -43,10 +65,31 @@ function ForeGround() {
             if (response) {
                 navigate('/');
             } else {
-                console.error('Logout failed');
+                toast('😅 LOGOUT failed', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+
+                })
             }
         } catch (error) {
-            console.error('Error during logout:', error);
+            toast('😒 Error during logout', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+
+            })
+       
         }
     };
     return (<>

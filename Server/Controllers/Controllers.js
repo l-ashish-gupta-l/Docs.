@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import Usermodel from "../Model/UserModel.js";
-import Taskmodel from "../Model/Taskmodel.js";
+import Usermodel from "../Models/UserModel.js";
+import Taskmodel from "../Models/Taskmodel.js";
 import bcrypt from "bcryptjs";
 import pdfkit from "pdfkit";
 import fs from "fs";
@@ -159,7 +159,6 @@ const UpdatePageRoute = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 export {
   isAuthenticate,

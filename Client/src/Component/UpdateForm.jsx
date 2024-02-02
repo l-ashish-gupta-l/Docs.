@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineOpenInFull } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { MdOutlineAttachment } from "react-icons/md";
@@ -66,7 +66,7 @@ function AddForm(props) {
         }
     };
 
-    console.log(Taskdata);
+
     const getFileTypeIcon = () => {
         if (Taskdata.fileType) {
 
@@ -86,7 +86,6 @@ function AddForm(props) {
         return null;
     };
 
-    console.log(Taskdata.file);
     const handleButtonClick = (e) => {
         e.preventDefault();
         if (Taskdata.file) {
