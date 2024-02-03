@@ -14,6 +14,20 @@ function AddForm(props) {
     const [Taskdata, setTaskdata] = useState([]);
 
 
+    const handleFileChange = (e) => {
+        const fileInput = e.target;
+        const file = fileInput.files[0];
+        console.log(file)
+        if (file) {
+            // Perform any additional checks on the file if needed
+            setTaskdata((prevTaskData) => ({
+                ...prevTaskData,
+                file: file, // Assuming you want to update the 'file' property in Taskdata
+                fileType: file.type, // Assuming you want to store the file type as well
+                fileName: file.name, // Assuming you want to store the file name
+            }));
+        }
+    };
 
     const titlehandler = (e) => {
         setTaskdata({
@@ -54,19 +68,27 @@ function AddForm(props) {
 
     const updatetask = async (e) => {
         e.preventDefault();
-        try {
+        console.log(Taskdata.file);
+        // try   {
+            // Assuming you have the file-related information in Taskdata
             const updatedData = await axios.patch(`http://localhost:5000/updatetask/${itemid}`, {
                 title: Taskdata.title,
                 discription: Taskdata.discription,
+                file: Taskdata.file,      // Include the file if needed
+                fileType: Taskdata.fileType,  // Include the file type if needed
+                fileName: Taskdata.fileName,  // Include the file name if needed
             });
+            console.log(updatedData);
 
+            // Handle the response or navigate to the desired page
             navigate('/foreground');
-        } catch (error) {
-            console.error('Error updating task:', error.message);
-        }
+        // } catch (error) {
+        //     console.error('Error updating task:', error.message);
+        //     // Handle the error (e.g., display an error message to the user)
+        // }
     };
 
-
+    // Taskdata.fileName
     const getFileTypeIcon = () => {
         if (Taskdata.fileType) {
 
@@ -85,6 +107,23 @@ function AddForm(props) {
 
         return null;
     };
+
+
+
+
+    const fileDelete = async (e) => {
+        e.preventDefault();
+        const res = await axios.delete(`http://localhost:5000/deleteFile/${itemid}`);
+        // console.log(res.data.file);
+        if (res.data.file == null) {
+            setTaskdata((prevTaskData) => ({
+                ...prevTaskData,
+                fileName: null, // Update with the appropriate field in Taskdata
+            }));
+
+        }
+
+    }
 
     const handleButtonClick = (e) => {
         e.preventDefault();
@@ -129,10 +168,13 @@ function AddForm(props) {
 
                     </div>
                     {Taskdata.fileName && (
-                        <button onClick={handleButtonClick} className={`flex justify-center items-center bg-slate-500 -ml-36 text-xs text-white rounded-full p-2 gap-2`}>
-                            {getFileTypeIcon()}
-                            <span >{Taskdata.fileName}</span>
-                        </button>
+                        <div className={`flex justify-center items-center bg-slate-500 -ml-36 text-xs text-white rounded-full p-2 gap-2`}
+                        > <button onClick={handleButtonClick} className='flex gap-2' >
+                                {getFileTypeIcon()}
+                                <span >{Taskdata.fileName}</span>
+                            </button>
+                            <button onClick={fileDelete} className='w-5 h-5 rounded-full'><RxCross2 size={20} /></button>
+                        </div>
                     )}
 
                     <button className='p-3 rounded-full

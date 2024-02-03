@@ -90,6 +90,7 @@ const TaskcreatedRoute = async (req, res) => {
       : null;
 
     if (req.file) {
+      // console.log(req.file.path);
       fs.unlinkSync(req.file.path);
     }
     const Task = await Taskmodel.create({
@@ -108,20 +109,27 @@ const TaskcreatedRoute = async (req, res) => {
 };
 
 const UpdatedTaskRoute = async (req, res) => {
-  try {
+  // try {
+    // Assuming your Taskmodel has a 'file' field to store file information
+    console.log(req.body.file, req.body.fileType, req.body.fileName);
     const updatedTask = await Taskmodel.findByIdAndUpdate(
       req.params.id,
       {
         title: req.body.title,
         discription: req.body.discription,
+        file: req.body.file, // Include the file information in the update
+        fileType: req.body.fileType, // Include the file type if needed
+        fileName: req.body.fileName, // Include the file name if needed
       },
       { new: true }
     );
+
     res.send(updatedTask);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+  // } catch (error) {
+  //   res.status(500).json({ error: error.message });
+  // }
+}
+
 const GeneratepdfRoute = async (req, res) => {
   try {
     const document = await Taskmodel.findById(req.params.documentId);
@@ -160,6 +168,10 @@ const UpdatePageRoute = async (req, res) => {
   }
 };
 
+// const FileDeletedRoute = async (req, res) => {
+
+// };
+
 export {
   isAuthenticate,
   WorkspaceRoute,
@@ -171,4 +183,5 @@ export {
   GeneratepdfRoute,
   DeleteRoute,
   UpdatePageRoute,
+  // FileDeletedRoute,
 };

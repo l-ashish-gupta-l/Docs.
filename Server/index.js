@@ -5,6 +5,7 @@ import cors from "cors";
 import connectdb from "./database.js";
 import cookieParser from "cookie-parser";
 import multerfileupload from "./middleware/Multer.js";
+import Taskmodel from "./Models/Taskmodel.js";
 
 import {
   isAuthenticate,
@@ -17,6 +18,7 @@ import {
   GeneratepdfRoute,
   DeleteRoute,
   UpdatePageRoute,
+  // FileDeletedRoute,
 } from "./Controllers/Controllers.js";
 
 const PORT = process.env.PORT;
@@ -58,6 +60,17 @@ app.patch("/updatetask/:id", isAuthenticate, UpdatedTaskRoute);
 app.get("/updatepage/:id", isAuthenticate, UpdatePageRoute);
 
 app.delete("/delete/:id", isAuthenticate, DeleteRoute);
+
+app.delete("/deleteFile/:id", isAuthenticate, async (req, res) => {
+  // console.log(req.params.id);
+  const delTask = await Taskmodel.findByIdAndUpdate(
+    req.params.id,
+    { $unset: { file: 1, fileName: null, fileType: null } },
+    { new: true }
+  );
+    res.status(200).send(delTask);
+    
+});
 
 app.get("/generate-pdf/:documentId", isAuthenticate, GeneratepdfRoute);
 

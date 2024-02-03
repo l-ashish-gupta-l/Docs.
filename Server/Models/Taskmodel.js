@@ -8,7 +8,7 @@ const pageSchema = new mongoose.Schema({
     ref: "Usermodel",
   },
   file: {
-    type: String,
+    type: Object,
     default: null,
   },
   fileName: {
