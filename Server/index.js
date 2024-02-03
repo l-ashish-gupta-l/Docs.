@@ -33,21 +33,6 @@ app.use(
   })
 );
 
-const apiProxy = createProxyMiddleware("/register", {
-  target: "https://docs-ten-sepia.vercel.app",
-  changeOrigin: true,
-  secure: false,
-  headers: {
-    "Access-Control-Allow-Origin": "http://localhost:5173",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE",
-    "Access-Control-Allow-Headers":
-      "Origin, X-Requested-With, Content-Type, Accept",
-    "Access-Control-Allow-Credentials": "true",
-  },
-});
-
-app.use(apiProxy);
-
 
 app.use(cookieParser());
 app.use(express.json());

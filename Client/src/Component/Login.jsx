@@ -47,7 +47,10 @@ function Login() {
                 Email: email,
                 Password: password,
             }, {
-                withCredentials: true
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             });
             topLoader.complete();
             navigate("/foreground");
