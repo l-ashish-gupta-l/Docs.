@@ -39,21 +39,8 @@ const RegisterRoute = async (req, res) => {
       });
       const userid = newUser._id;
       const token = jwt.sign({ userid }, process.env.jwt_secret);
-
-      // Set CORS headers
-      res.header("Access-Control-Allow-Origin", "http://localhost:5173");
-      res.header(
-        "Access-Control-Allow-Methods",
-        "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-      );
-      res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-      );
-      res.header("Access-Control-Allow-Credentials", "true");
-
+      res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
       res.cookie("Token", token, { maxAge: 3600000 });
-
       return res
         .status(200)
         .json({ message: "Registration successful", user: newUser });
