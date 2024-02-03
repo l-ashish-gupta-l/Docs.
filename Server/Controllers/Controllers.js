@@ -39,7 +39,21 @@ const RegisterRoute = async (req, res) => {
       });
       const userid = newUser._id;
       const token = jwt.sign({ userid }, process.env.jwt_secret);
+
+      // Set CORS headers
+      res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+      res.header(
+        "Access-Control-Allow-Methods",
+        "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+      );
+      res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+      );
+      res.header("Access-Control-Allow-Credentials", "true");
+
       res.cookie("Token", token, { maxAge: 3600000 });
+
       return res
         .status(200)
         .json({ message: "Registration successful", user: newUser });
@@ -120,14 +134,14 @@ const UpdatedTaskRoute = async (req, res) => {
       // console.log(req.file.path);
       fs.unlinkSync(req.file.path);
     }
-  const updatedTask = await Taskmodel.findByIdAndUpdate(
+    const updatedTask = await Taskmodel.findByIdAndUpdate(
       req.params.id,
       {
         title: req.body.title,
         discription: req.body.discription,
-        file: fileUrl, 
-        fileType: req.body.fileType, 
-        fileName: req.body.fileName, 
+        file: fileUrl,
+        fileType: req.body.fileType,
+        fileName: req.body.fileName,
       },
       { new: true }
     );
@@ -136,7 +150,7 @@ const UpdatedTaskRoute = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
 
 const GeneratepdfRoute = async (req, res) => {
   try {

@@ -20,10 +20,11 @@ import {
   UpdatePageRoute,
   // FileDeletedRoute,
 } from "./Controllers/Controllers.js";
-import { createProxyMiddleware } from "http-proxy-middleware";
+
 
 const PORT = process.env.PORT;
 const app = express();
+
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -33,22 +34,6 @@ app.use(
   })
 );
 
-const proxyOptions = {
-  target: "https://docs-ten-sepia.vercel.app",
-  changeOrigin: true,
-  pathRewrite: {
-    "^/register": "/register", // Adjust the path if needed
-  },
-  secure: true, // Set to true for production, false for development
-  headers: {
-    "Access-Control-Allow-Origin": "http://localhost:5173",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE",
-    "Access-Control-Allow-Headers":
-      "Origin, X-Requested-With, Content-Type, Accept",
-    "Access-Control-Allow-Credentials": "true",
-  },
-};
-const registerProxy = createProxyMiddleware(proxyOptions);
 
 app.use(cookieParser());
 app.use(express.json());
