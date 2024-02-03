@@ -42,7 +42,7 @@ function Login() {
         e.preventDefault();
         try {
             topLoader.continuousStart();
-            const response = await axios.post("http://localhost:5000/register", {
+            const response = await axios.post("https://docs-server-roan.vercel.app/register", {
                 Username: username,
                 Email: email,
                 Password: password,
@@ -68,7 +68,7 @@ function Login() {
 
         try {
             topLoader.continuousStart();
-            const res = await axios.post("http://localhost:5000/login", {
+            const res = await axios.post("https://docs-server-roan.vercel.app/login", {
                 Email: email,
                 Password: password
             }, {
