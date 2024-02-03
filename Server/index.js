@@ -56,7 +56,12 @@ app.post(
   TaskcreatedRoute
 );
 
-app.patch("/updatetask/:id", isAuthenticate, UpdatedTaskRoute);
+app.patch(
+  "/updatetask/:id",
+  multerfileupload.single("file"),
+  isAuthenticate,
+  UpdatedTaskRoute
+);
 app.get("/updatepage/:id", isAuthenticate, UpdatePageRoute);
 
 app.delete("/delete/:id", isAuthenticate, DeleteRoute);

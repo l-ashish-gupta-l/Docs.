@@ -69,23 +69,25 @@ function AddForm(props) {
     const updatetask = async (e) => {
         e.preventDefault();
         console.log(Taskdata.file);
-        // try   {
-            // Assuming you have the file-related information in Taskdata
+        try {
             const updatedData = await axios.patch(`http://localhost:5000/updatetask/${itemid}`, {
                 title: Taskdata.title,
                 discription: Taskdata.discription,
-                file: Taskdata.file,      // Include the file if needed
-                fileType: Taskdata.fileType,  // Include the file type if needed
-                fileName: Taskdata.fileName,  // Include the file name if needed
+                file: Taskdata.file,
+                fileType: Taskdata.fileType,
+                fileName: Taskdata.fileName,
+            }, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             });
             console.log(updatedData);
 
-            // Handle the response or navigate to the desired page
             navigate('/foreground');
-        // } catch (error) {
-        //     console.error('Error updating task:', error.message);
-        //     // Handle the error (e.g., display an error message to the user)
-        // }
+        } catch (error) {
+            console.error('Error updating task:', error.message);
+            // Handle the error (e.g., display an error message to the user)
+        }
     };
 
     // Taskdata.fileName
@@ -118,7 +120,7 @@ function AddForm(props) {
         if (res.data.file == null) {
             setTaskdata((prevTaskData) => ({
                 ...prevTaskData,
-                fileName: null, // Update with the appropriate field in Taskdata
+                fileName: null,
             }));
 
         }

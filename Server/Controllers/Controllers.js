@@ -109,25 +109,33 @@ const TaskcreatedRoute = async (req, res) => {
 };
 
 const UpdatedTaskRoute = async (req, res) => {
-  // try {
+  try {
     // Assuming your Taskmodel has a 'file' field to store file information
-    console.log(req.body.file, req.body.fileType, req.body.fileName);
-    const updatedTask = await Taskmodel.findByIdAndUpdate(
+    // console.log(req.body.file, req.body.fileType, req.body.fileName);
+    const fileUrl = req.file
+      ? (await fileuploadonCloudinary(req.file.path)).url
+      : null;
+
+    if (req.file) {
+      // console.log(req.file.path);
+      fs.unlinkSync(req.file.path);
+    }
+  const updatedTask = await Taskmodel.findByIdAndUpdate(
       req.params.id,
       {
         title: req.body.title,
         discription: req.body.discription,
-        file: req.body.file, // Include the file information in the update
-        fileType: req.body.fileType, // Include the file type if needed
-        fileName: req.body.fileName, // Include the file name if needed
+        file: fileUrl, 
+        fileType: req.body.fileType, 
+        fileName: req.body.fileName, 
       },
       { new: true }
     );
 
     res.send(updatedTask);
-  // } catch (error) {
-  //   res.status(500).json({ error: error.message });
-  // }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 }
 
 const GeneratepdfRoute = async (req, res) => {
