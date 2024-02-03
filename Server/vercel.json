@@ -3,25 +3,14 @@
     "version": 2,
     "builds": [
         {
-            "src": "*.js",
+            "src": "index.js",
             "use": "@vercel/node"
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "/"
-        }
-    ],
-    "headers": [
-        {
-            "source": "/(.*)",
-            "headers": [
-                {
-                    "key": "Access-Control-Allow-Origin",
-                    "value": "http://localhost:5173"
-                }
-            ]
+            "dest": "/index.js"
         }
     ]
 }
