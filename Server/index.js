@@ -35,13 +35,14 @@ app.use((req, res, next) => {
   );
   res.header("Access-Control-Allow-Credentials", "true");
 
+  // Handle preflight requests
   if (req.method === "OPTIONS") {
     res.status(200).end();
   } else {
     next();
   }
 });
-app.use(
+https: app.use(
   cors({
     origin: ["http://localhost:5173", "https://docs-server-pvme.onrender.com/"],
     credentials: true,
