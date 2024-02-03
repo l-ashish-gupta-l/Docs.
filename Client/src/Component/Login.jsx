@@ -42,7 +42,7 @@ function Login() {
         e.preventDefault();
         try {
             topLoader.continuousStart();
-            const response = await axios.post("https://docs-server-roan.vercel.app/register", {
+            const response = await axios.post("https://docs-server-pvme.onrender.com/register", {
                 Username: username,
                 Email: email,
                 Password: password,
@@ -68,7 +68,7 @@ function Login() {
 
         try {
             topLoader.continuousStart();
-            const res = await axios.post("https://docs-server-roan.vercel.app/login", {
+            const res = await axios.post("https://docs-server-pvme.onrender.com/login", {
                 Email: email,
                 Password: password
             }, {
