@@ -41,10 +41,7 @@ const RegisterRoute = async (req, res) => {
       const token = jwt.sign({ userid }, process.env.jwt_secret);
 
       // Set CORS headers
-      res.header(
-        "Access-Control-Allow-Origin",
-        "https://docs-ten-sepia.vercel.app/"
-      );
+      res.header("Access-Control-Allow-Origin", "http://localhost:5173");
       res.header(
         "Access-Control-Allow-Methods",
         "GET, POST, OPTIONS, PUT, PATCH, DELETE"

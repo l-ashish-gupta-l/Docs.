@@ -21,19 +21,18 @@ import {
   // FileDeletedRoute,
 } from "./Controllers/Controllers.js";
 
-
 const PORT = process.env.PORT;
 const app = express();
 
+
 app.use(
   cors({
-    origin: "https://docs-ten-sepia.vercel.app/",
+    origin: "*",
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept",
   })
 );
-
 
 app.use(cookieParser());
 app.use(express.json());
