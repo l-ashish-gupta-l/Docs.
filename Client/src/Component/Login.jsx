@@ -42,7 +42,7 @@ function Login() {
         e.preventDefault();
         try {
             topLoader.continuousStart();
-            const response = await axios.post("https://docs-server-pvme.onrender.com/register", {
+            const response = await axios.post("https://docs-ten-sepia.vercel.app/register", {
                 Username: username,
                 Email: email,
                 Password: password,
@@ -68,7 +68,7 @@ function Login() {
 
         try {
             topLoader.continuousStart();
-            const res = await axios.post("https://docs-server-pvme.onrender.com/login", {
+            const res = await axios.post("https://docs-ten-sepia.vercel.app/login", {
                 Email: email,
                 Password: password
             }, {
