@@ -48,7 +48,7 @@ function ForeGround() {
         }
     }
     useEffect(() => {
-        console.log(workspace)
+        // console.log(workspace)
         getUserData();
         getWorkspace();
     }, []);
@@ -61,7 +61,7 @@ function ForeGround() {
     const logout = async () => {
         try {
             const response = await axios.get('http://localhost:5000/logout', {}, { withCredentials: true });
-            console.log(response);
+            // console.log(response);
             if (response) {
                 navigate('/');
             } else {
@@ -89,7 +89,7 @@ function ForeGround() {
                 theme: "dark",
 
             })
-       
+
         }
     };
     return (<>
@@ -101,7 +101,7 @@ function ForeGround() {
                     <span className='font-semibold '><u>Logout</u></span>
                     <FaArrowRight size={12} className='mt-1' /> </button>
             </div>
-            <div ref={ref} className='w-full mt-[10vh] bottom-0 absolute grid grid-cols-5  p-5 left-0 top-0 items-end'>
+            <div ref={ref} className='w-full mt-[10vh] gap-5 bottom-0 absolute grid grid-cols-5  p-5 left-0 top-0 items-end'>
                 {workspace.map((item, index) => {
                     return <Card title={item.title}
                         key={index}

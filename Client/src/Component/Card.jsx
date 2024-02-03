@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import { FaRegFileAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { motion } from "framer-motion"
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { IoDocumentTextOutline } from "react-icons/io5";
@@ -24,7 +22,7 @@ function Card(props) {
     if (task == null) {
         return null
     }
-    console.log(task)
+    // console.log(task)
 
     const getFileTypeIcon = () => {
         if (props.fileType) {
@@ -47,12 +45,11 @@ function Card(props) {
 
     const handleDownload = async () => {
         try {
-            // Fetch the PDF from the server
+
             const response = await axios.get(`/generate-pdf/${props.itemid}`, {
-                responseType: 'blob', // Important to specify responseType as 'blob'
+                responseType: 'blob',
             });
 
-            // Convert the blob to PDF using html2pdf
             const pdfContent = `
       <div style="text-align: center; margin: auto; width:90%; padding:20px;">
     <h1 style="font-weight: bold; text-align: center; font-size:50px">${task.title}</h1>
@@ -80,7 +77,7 @@ function Card(props) {
 
 
     return (
-        <motion.div drag whileDrag={{ scale: 1.1 }} dragConstraints={props.reference} className=' relative w-[250px] mx-auto h-[300px] gap-5 p-5 bg-zinc-200 rounded-2xl overflow-hidden'>
+        <div className=' relative w-[250px] mx-auto h-[300px] gap-5 p-5 bg-zinc-200 rounded-2xl overflow-hidden'>
             <div onClick={opentask} className=' h-[72%]  overflow-hidden  '>
                 {getFileTypeIcon()}
                 <h1 className='text-lg mt-3 tracking-tighter font-semibold'>{task.title}</h1>
@@ -105,7 +102,7 @@ function Card(props) {
                     <h5 className='text-sm'>Download Now</h5>
                 </button>
             </div>
-        </motion.div>
+        </div>
     )
 }
 

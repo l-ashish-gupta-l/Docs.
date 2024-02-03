@@ -9,10 +9,10 @@ function Login() {
     const overlay = () => {
         setoverlayscreen(prevState => {
             if (prevState === "right-0") {
-                console.log("value of flag ", 1);
+                // console.log("value of flag ", 1);
                 return "right-1/2";
             } else {
-                console.log("value of flag ", 0);
+                // console.log("value of flag ", 0);
                 return "right-0";
             }
         });
