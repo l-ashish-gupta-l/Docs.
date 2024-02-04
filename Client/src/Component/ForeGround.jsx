@@ -102,16 +102,20 @@ function ForeGround() {
                     <FaArrowRight size={12} className='mt-1' /> </button>
             </div>
             <div ref={ref} className='w-full mt-[10vh] gap-5 bottom-0 absolute grid grid-cols-5  p-5 left-0 top-0 items-end'>
-                {workspace.map((item, index) => {
-                    return <Card title={item.title}
-                        key={index}
-                        discription={item.discription} reference={ref}
-                        itemid={item._id}
-                        fileName={item.fileName}
-                        fileType={item.fileType}
-                        fileUrl={item.file}
-                    />
-                })}
+                {Array.isArray(workspace) &&
+                    workspace.map((item, index) => (
+                        <Card
+                            title={item.title}
+                            key={index}
+                            discription={item.discription}
+                            reference={ref}
+                            itemid={item._id}
+                            fileName={item.fileName}
+                            fileType={item.fileType}
+                            fileUrl={item.file}
+                        />
+                    ))}
+
 
             </div>
             <button onClick={toggleForm} className='fixed right-20  bottom-10 w-14 h-14 rounded-full border-2 border-white  flex justify-center items-center bg-black'>
